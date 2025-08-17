@@ -1176,11 +1176,39 @@
             "Price": 13.95,
             "Quantity": 2,
             "Observation": null
+          },
+          {
+            "$id": "130",
+            "Id": "00000000-0000-0000-0000-000000000000",
+            "CartId": "765c9e05-a2e9-46ee-b6e4-585e93f89e12",
+            "Cart": {
+              "$id": "131",
+              "Id": "765c9e05-a2e9-46ee-b6e4-585e93f89e12",
+              "OrderId": null,
+              "Order": null,
+              "CartProducts": {
+                "$id": "132",
+                "$values": [
+                  {
+                    "$ref": "130"
+                  }
+                ]
+              },
+              "SubTotal": 27.90,
+              "Total": 31.25
+            },
+            "ProductId": "ecc2f619-1db0-4ad1-ae27-3da32be7ed79",
+            "Product": {
+              "$ref": "2"
+            },
+            "Price": 13.95,
+            "Quantity": 2,
+            "Observation": null
           }
         ]
       },
       "ProductCategories": {
-        "$id": "130",
+        "$id": "133",
         "$values": [
           {
             "$ref": "20"

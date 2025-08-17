@@ -41,6 +41,7 @@
             infoGroupBox = new GroupBox();
             ordersPanel = new FlowLayoutPanel();
             ordersButton = new Button();
+            clearCartButton = new Button();
             infoGroupBox.SuspendLayout();
             SuspendLayout();
             // 
@@ -168,11 +169,22 @@
             ordersButton.UseVisualStyleBackColor = true;
             ordersButton.Click += ShowOrdersPanel;
             // 
+            // clearCartButton
+            // 
+            clearCartButton.Location = new Point(787, 68);
+            clearCartButton.Name = "clearCartButton";
+            clearCartButton.Size = new Size(100, 50);
+            clearCartButton.TabIndex = 14;
+            clearCartButton.Text = "ClearCart";
+            clearCartButton.UseVisualStyleBackColor = true;
+            clearCartButton.Click += ClearCart;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1006, 721);
+            Controls.Add(clearCartButton);
             Controls.Add(ordersButton);
             Controls.Add(infoGroupBox);
             Controls.Add(homePanel);
@@ -204,5 +216,6 @@
         private GroupBox infoGroupBox;
         private FlowLayoutPanel ordersPanel;
         private Button ordersButton;
+        private Button clearCartButton;
     }
 }

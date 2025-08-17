@@ -15,6 +15,29 @@ namespace fast_food_system_desktop_app
             this.FormClosing += ClosingHandler;
         }
 
+        private enum PanelType { Home, Cart } // Add Order later
+
+        private PanelType currentPanel = PanelType.Home;
+
+        private void RefreshCurrentPanel()
+        {
+            if (currentPanel == PanelType.Home)
+            {
+                HomeLoad();
+            }
+            else if (currentPanel == PanelType.Cart)
+            {
+                CartLoad();
+            }
+
+            // Uncomment this when OrdersLoad is implemented
+            // else if (currentPanel == PanelType.Orders)
+            //{
+            //    OrdersLoad();
+            //}
+        }
+
+
         protected void HomeLoad()
         {
             homePanel.Controls.Clear();
@@ -291,6 +314,26 @@ namespace fast_food_system_desktop_app
             }
         }
 
+        private void ClearCart(object sender, EventArgs e)
+        {
+            Cart cart = DataAccess.Cart;
+            HashSet<Product> products = DataAccess.Products;
+
+            foreach (CartProduct cartProduct in cart.CartProducts)
+            {
+                cart.CartProducts.Remove(cartProduct);
+
+                Product product = products.FirstOrDefault(p => p.Id == cartProduct.ProductId);
+
+                if (product != null)
+                {
+                    product.CartProducts.Remove(cartProduct);
+                }
+            }
+
+            RefreshCurrentPanel();
+        }
+
         private void PlaceOrder(object sender, EventArgs e)
         {
             Cart cart = DataAccess.Cart;
@@ -329,12 +372,14 @@ namespace fast_food_system_desktop_app
 
         private void ShowCartPanel(object sender, EventArgs e)
         {
+            currentPanel = PanelType.Cart;
             CartLoad();
             placeOrderButton.Visible = true;
         }
 
         private void ShowHomePanel(object sender, EventArgs e)
         {
+            currentPanel = PanelType.Home;
             HomeLoad();
             placeOrderButton.Visible = false;
         }
