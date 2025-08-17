@@ -21,7 +21,7 @@ namespace fast_food_system_desktop_app
 
             DefaultProductsCategories.LinkProductsToCategory(DefaultProducts.appetizerProducts, DefaultCategories.appetizer);
 
-            CreateHomeItems(DefaultProducts.appetizerProducts);
+            CreateHomeItems(DataAccess.Products);
 
             homePanel.BringToFront();
         }

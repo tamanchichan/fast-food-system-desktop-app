@@ -58,7 +58,7 @@ namespace fast_food_system_desktop_app.Data
                 return defaultCategories;
             }
 
-            string json = File.ReadAllText(ProductsFilePath);
+            string json = File.ReadAllText(CategoriesFilePath);
 
             HashSet<Category> categories = JsonSerializer.Deserialize<HashSet<Category>>(json, new JsonSerializerOptions
             {
