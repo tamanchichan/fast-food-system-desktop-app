@@ -13,6 +13,8 @@ namespace fast_food_system_desktop_app.Model
 
         public string Code { get; set; }
 
+        public HashSet<CartProduct>? CartProducts { get; set; } = new HashSet<CartProduct>();
+
         public HashSet<ProductCategory>? ProductCategories { get; set; } = new HashSet<ProductCategory>();
 
         [MinLength(3, ErrorMessage = "\"Name\" has to be at least 3 characters long.")]
@@ -66,10 +68,11 @@ namespace fast_food_system_desktop_app.Model
 
         public Product() { }
 
-        public Product(string code, HashSet<ProductCategory>? productCategories, string name, FoodOption? foodOption, PopOption? popOption, string? description, decimal price)
+        public Product(string code, HashSet<CartProduct>? cartProducts, HashSet<ProductCategory>? productCategories, string name, FoodOption? foodOption, PopOption? popOption, string? description, decimal price)
         {
             Id = Guid.NewGuid();
             Code = code;
+            CartProducts = cartProducts;
             ProductCategories = productCategories;
             Name = name;
             SelectedFoodOption = foodOption;

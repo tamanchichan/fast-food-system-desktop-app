@@ -11,6 +11,8 @@ namespace fast_food_system_desktop_app.Model
     {
         public Guid Id { get; set; }
 
+        private static int _lastOrderNumber = 1001;
+
         public int Number { get; set; }
 
         public Guid CartId { get; set; }
@@ -57,12 +59,16 @@ namespace fast_food_system_desktop_app.Model
             }
         }
 
-        public Order() { }
-
-        public Order(int number, Guid cartId, Cart cart, Guid? customerId, Customer? customer, string? phoneNumber, OrderType? orderType, string? observation)
+        public Order()
         {
             Id = Guid.NewGuid();
-            Number = number;
+            Number = _lastOrderNumber++;
+        }
+
+        public Order(Guid cartId, Cart cart, Guid? customerId, Customer? customer, string? phoneNumber, OrderType? orderType, string? observation)
+        {
+            Id = Guid.NewGuid();
+            Number = _lastOrderNumber++;
             CartId = cartId;
             Cart = cart;
             CustomerId = customerId;

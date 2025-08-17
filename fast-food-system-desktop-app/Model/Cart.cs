@@ -9,7 +9,7 @@ namespace fast_food_system_desktop_app.Model
 {
     public class Cart
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public Guid? OrderId { get; set; }
 
