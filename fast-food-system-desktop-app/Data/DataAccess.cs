@@ -131,5 +131,38 @@ namespace fast_food_system_desktop_app.Data
 
             return lastCart;
         }
+
+        public static readonly string OrdersFilePath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName, "Data", "orders.json");
+
+        public static HashSet<Order> Orders = LoadOrders();
+
+        public static HashSet<Order> LoadOrders()
+        {
+            if (!File.Exists(OrdersFilePath))
+            {
+                return new HashSet<Order>() { };
+            }
+
+            string json = File.ReadAllText(OrdersFilePath);
+
+            HashSet<Order> orders = JsonSerializer.Deserialize<HashSet<Order>>(json, new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            });
+
+            return orders;
+        }
+
+        public static void SaveOrders()
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(OrdersFilePath));
+
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+            File.WriteAllText(OrdersFilePath, JsonSerializer.Serialize(Orders, options));
+        }
     }
 }

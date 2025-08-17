@@ -62,7 +62,7 @@ namespace fast_food_system_desktop_app
             ordersPanel.Controls.Clear();
 
             // create a method to display orders properly later
-            foreach (Order order in DefaultOrders.orders)
+            foreach (Order order in DataAccess.Orders)
             {
                 Panel panel = new Panel();
 
@@ -363,8 +363,8 @@ namespace fast_food_system_desktop_app
             DataAccess.Carts.Add(DataAccess.Cart); // Add the new cart to the list
             DataAccess.SaveCarts(); // Save the carts to the file
 
-            // change to DataAccess.Orders later
-            DefaultOrders.orders.Add(order);
+            DataAccess.Orders.Add(order); // Add the order to the list
+            DataAccess.SaveOrders(); // Save the orders to the file
 
             ShowHomePanel(sender, e);
         }

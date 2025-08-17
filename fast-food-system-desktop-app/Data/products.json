@@ -1067,16 +1067,45 @@
                                       "Code": "7A",
                                       "CartProducts": {
                                         "$id": "125",
-                                        "$values": []
+                                        "$values": [
+                                          {
+                                            "$id": "126",
+                                            "Id": "00000000-0000-0000-0000-000000000000",
+                                            "CartId": "b4446e80-e5b4-4b39-817e-6c6d3e750074",
+                                            "Cart": {
+                                              "$id": "127",
+                                              "Id": "b4446e80-e5b4-4b39-817e-6c6d3e750074",
+                                              "OrderId": null,
+                                              "Order": null,
+                                              "CartProducts": {
+                                                "$id": "128",
+                                                "$values": [
+                                                  {
+                                                    "$ref": "126"
+                                                  }
+                                                ]
+                                              },
+                                              "SubTotal": 9.75,
+                                              "Total": 10.92
+                                            },
+                                            "ProductId": "81518b55-a47b-4df4-aa75-497285431868",
+                                            "Product": {
+                                              "$ref": "124"
+                                            },
+                                            "Price": 1.95,
+                                            "Quantity": 5,
+                                            "Observation": null
+                                          }
+                                        ]
                                       },
                                       "ProductCategories": {
-                                        "$id": "126",
+                                        "$id": "129",
                                         "$values": [
                                           {
                                             "$ref": "123"
                                           },
                                           {
-                                            "$id": "127",
+                                            "$id": "130",
                                             "Id": "088553ce-ad0c-4072-ba2d-f277009d9d15",
                                             "ProductId": "81518b55-a47b-4df4-aa75-497285431868",
                                             "Product": {
@@ -1101,7 +1130,7 @@
                                     }
                                   },
                                   {
-                                    "$id": "128",
+                                    "$id": "131",
                                     "Id": "80d004c2-ca4c-4004-8c89-d78c585deed3",
                                     "ProductId": "ecc2f619-1db0-4ad1-ae27-3da32be7ed79",
                                     "Product": {
@@ -1119,7 +1148,7 @@
                                     "$ref": "99"
                                   },
                                   {
-                                    "$id": "129",
+                                    "$id": "132",
                                     "Id": "13a525c2-ba6f-4ba0-ba59-c438f31c4037",
                                     "ProductId": "b162e7b2-6d03-413c-9fa8-67b72087358e",
                                     "Product": {
@@ -1143,14 +1172,14 @@
                                     "$ref": "122"
                                   },
                                   {
-                                    "$ref": "127"
+                                    "$ref": "130"
                                   }
                                 ]
                               }
                             }
                           },
                           {
-                            "$ref": "129"
+                            "$ref": "132"
                           }
                         ]
                       },
@@ -1178,19 +1207,19 @@
             "Observation": null
           },
           {
-            "$id": "130",
+            "$id": "133",
             "Id": "00000000-0000-0000-0000-000000000000",
             "CartId": "765c9e05-a2e9-46ee-b6e4-585e93f89e12",
             "Cart": {
-              "$id": "131",
+              "$id": "134",
               "Id": "765c9e05-a2e9-46ee-b6e4-585e93f89e12",
               "OrderId": null,
               "Order": null,
               "CartProducts": {
-                "$id": "132",
+                "$id": "135",
                 "$values": [
                   {
-                    "$ref": "130"
+                    "$ref": "133"
                   }
                 ]
               },
@@ -1204,17 +1233,45 @@
             "Price": 13.95,
             "Quantity": 2,
             "Observation": null
+          },
+          {
+            "$id": "136",
+            "Id": "00000000-0000-0000-0000-000000000000",
+            "CartId": "765c9e05-a2e9-46ee-b6e4-585e93f89e12",
+            "Cart": {
+              "$id": "137",
+              "Id": "765c9e05-a2e9-46ee-b6e4-585e93f89e12",
+              "OrderId": null,
+              "Order": null,
+              "CartProducts": {
+                "$id": "138",
+                "$values": [
+                  {
+                    "$ref": "136"
+                  }
+                ]
+              },
+              "SubTotal": 13.95,
+              "Total": 15.62
+            },
+            "ProductId": "ecc2f619-1db0-4ad1-ae27-3da32be7ed79",
+            "Product": {
+              "$ref": "2"
+            },
+            "Price": 13.95,
+            "Quantity": 1,
+            "Observation": null
           }
         ]
       },
       "ProductCategories": {
-        "$id": "133",
+        "$id": "139",
         "$values": [
           {
             "$ref": "20"
           },
           {
-            "$ref": "128"
+            "$ref": "131"
           }
         ]
       },
