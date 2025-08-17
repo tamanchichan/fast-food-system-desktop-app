@@ -37,7 +37,6 @@ namespace fast_food_system_desktop_app
             //}
         }
 
-
         protected void HomeLoad()
         {
             homePanel.Controls.Clear();
