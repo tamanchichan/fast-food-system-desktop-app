@@ -15,5 +15,10 @@ namespace fast_food_system_desktop_app.Data
         //CartProducts = cartProducts;
 
         public static Cart cart = new Cart();
+
+        public static HashSet<Cart> carts = new HashSet<Cart>()
+        {
+            cart
+        };
     }
 }

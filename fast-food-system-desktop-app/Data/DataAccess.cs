@@ -81,39 +81,55 @@ namespace fast_food_system_desktop_app.Data
             File.WriteAllText(CategoriesFilePath, JsonSerializer.Serialize(Categories, options));
         }
 
-        //    public static readonly string CartsFilePath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName, "Data", "carts.json");
+        public static readonly string CartsFilePath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName, "Data", "carts.json");
 
-        //    public static Cart Cart = LoadCart();
+        public static HashSet<Cart> Carts = LoadCarts();
 
-        //    public static Cart LoadCart()
-        //    {
-        //        if (!File.Exists(CartsFilePath))
-        //        {
-        //           Cart defaultCart = DefaultCart.cart;
-        //            return defaultCart;
-        //        }
+        public static HashSet<Cart> LoadCarts()
+        {
+            if (!File.Exists(CartsFilePath))
+            {
+                HashSet<Cart> defaultCarts = DefaultCart.carts;
+                return defaultCarts;
+            }
 
-        //        string json = File.ReadAllText(CartsFilePath);
+            string json = File.ReadAllText(CartsFilePath);
 
-        //        Cart cart = JsonSerializer.Deserialize<Cart>(json, new JsonSerializerOptions
-        //        {
-        //            ReferenceHandler = ReferenceHandler.Preserve
-        //        });
+            HashSet<Cart> carts = JsonSerializer.Deserialize<HashSet<Cart>>(json, new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            });
 
-        //        return cart;
-        //    }
+            return carts;
+        }
 
-        //    public static void SaveCarts()
-        //    {
-        //        Directory.CreateDirectory(Path.GetDirectoryName(CartsFilePath));
+        public static void SaveCarts()
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(CartsFilePath));
 
-        //        JsonSerializerOptions options = new JsonSerializerOptions
-        //        {
-        //            WriteIndented = true,
-        //            ReferenceHandler = ReferenceHandler.Preserve
-        //        };
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
 
-        //        File.WriteAllText(CartsFilePath, JsonSerializer.Serialize(Cart, options));
-        //    }
+            File.WriteAllText(CartsFilePath, JsonSerializer.Serialize(Carts, options));
+        }
+
+        public static Cart Cart = GetLastCart();
+
+        public static Cart GetLastCart()
+        {
+            if (Carts.Count == 0)
+            {
+                Cart defaultCart = new Cart();
+                return defaultCart;
+            }
+
+            Cart lastCart = Carts.Last();
+            DefaultCart.cart = lastCart;
+
+            return lastCart;
+        }
     }
 }

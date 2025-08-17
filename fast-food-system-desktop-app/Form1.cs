@@ -30,7 +30,7 @@ namespace fast_food_system_desktop_app
         {
             cartPanel.Controls.Clear();
 
-            CreateCartItems(DefaultCart.cart.CartProducts);
+            CreateCartItems(DataAccess.Cart.CartProducts);
 
             cartPanel.BringToFront();
         }
@@ -39,6 +39,7 @@ namespace fast_food_system_desktop_app
         {
             ordersPanel.Controls.Clear();
 
+            // create a method to display orders properly later
             foreach (Order order in DefaultOrders.orders)
             {
                 Panel panel = new Panel();
@@ -58,7 +59,7 @@ namespace fast_food_system_desktop_app
         {
             DataAccess.SaveProducts();
             DataAccess.SaveCategories();
-            //DataAccess.SaveCarts();
+            DataAccess.SaveCarts();
         }
 
         private void CreateHomeItems(HashSet<Product> products)
@@ -97,7 +98,7 @@ namespace fast_food_system_desktop_app
                     );
 
 
-                Cart cart = DefaultCart.cart;
+                Cart cart = DataAccess.Cart;
 
                 CartProduct cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == product.Id);
 
@@ -143,12 +144,13 @@ namespace fast_food_system_desktop_app
 
         private void AddItemToCart(Product product)
         {
-            Cart cart = DefaultCart.cart;
+            Cart cart = DataAccess.Cart;
 
+            // If cart is null, create a new one
             if (cart == null)
             {
                 cart = new Cart();
-                DefaultCart.cart = cart;
+                DataAccess.Cart = cart;
             }
 
             cart.CartProducts ??= new HashSet<CartProduct>();
@@ -291,7 +293,7 @@ namespace fast_food_system_desktop_app
 
         private void PlaceOrder(object sender, EventArgs e)
         {
-            Cart cart = DefaultCart.cart;
+            Cart cart = DataAccess.Cart;
 
             Order.OrderType selectedOrderType = Order.OrderType.PickUp;
 
@@ -314,9 +316,13 @@ namespace fast_food_system_desktop_app
                 // Observation = 
             };
 
-            DefaultOrders.orders.Add(order);
+            DataAccess.Carts.Add(cart); // Save the current cart
+            DataAccess.Cart = new Cart(); // Create a new cart for the next order
+            DataAccess.Carts.Add(DataAccess.Cart); // Add the new cart to the list
+            DataAccess.SaveCarts(); // Save the carts to the file
 
-            DefaultCart.cart = new Cart();
+            // change to DataAccess.Orders later
+            DefaultOrders.orders.Add(order);
 
             ShowHomePanel(sender, e);
         }
