@@ -1,4 +1,6 @@
-﻿- Create a "CreateOrderItems" method to display a list of "Order"
+﻿- Update "cartPanel" display
+
+- Create a "CreateOrderItems" method to display a list of "Order"
 
 - Create a "TextBox" and a method to add "Product" to "CartProduct",
 "AddItemToCart" method by inputting the "Product" Code and "Quantity".
