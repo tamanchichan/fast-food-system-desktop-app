@@ -1,16 +1,31 @@
 using fast_food_system_desktop_app.Data;
 using fast_food_system_desktop_app.Model;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace fast_food_system_desktop_app
 {
     public partial class Form1 : Form
     {
+        private Panel cartDetailsPanel = new Panel();
+        private Label customerNameLabel = new Label();
+        private TextBox customerNameTextBox = new TextBox();
+        private Label customerPhoneNumberLabel = new Label();
+        private TextBox customerPhoneNumberTextBox = new TextBox();
+        private Label customerAddressLabel = new Label();
+        private TextBox customerAddressTextBox = new TextBox();
+        private Label cartSubTotalPlaceholder = new Label();
+        private Label cartSubTotalPrice = new Label();
+        private Label cartTotalPlaceholder = new Label();
+        private Label cartTotalPrice = new Label();
+
         public Form1()
         {
             InitializeComponent();
 
             HomeLoad();
+
+            DisplayCartDetails();
 
             this.FormClosing += ClosingHandler;
         }
@@ -39,27 +54,27 @@ namespace fast_food_system_desktop_app
 
         protected void HomeLoad()
         {
-            homePanel.Controls.Clear();
+            homeFlowLayoutPanel.Controls.Clear();
 
             DefaultProductsCategories.LinkProductsToCategory(DefaultProducts.appetizerProducts, DefaultCategories.appetizer);
 
             CreateHomeItems(DataAccess.Products);
 
-            homePanel.BringToFront();
+            homeFlowLayoutPanel.BringToFront();
         }
 
         protected void CartLoad()
         {
-            cartPanel.Controls.Clear();
+            cartFlowLayoutPanel.Controls.Clear();
 
             CreateCartItems(DataAccess.Cart.CartProducts);
 
-            cartPanel.BringToFront();
+            cartFlowLayoutPanel.BringToFront();
         }
 
         protected void OrdersLoad()
         {
-            ordersPanel.Controls.Clear();
+            ordersFlowLayoutPanel.Controls.Clear();
 
             // create a method to display orders properly later
             foreach (Order order in DataAccess.Orders)
@@ -71,10 +86,10 @@ namespace fast_food_system_desktop_app
 
                 panel.Controls.Add(label);
 
-                ordersPanel.Controls.Add(panel);
+                ordersFlowLayoutPanel.Controls.Add(panel);
             }
 
-            ordersPanel.BringToFront();
+            ordersFlowLayoutPanel.BringToFront();
         }
 
         protected void ClosingHandler(object sender, EventArgs e)
@@ -145,6 +160,9 @@ namespace fast_food_system_desktop_app
                     CartProduct cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == product.Id);
 
                     productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
+
+                    cartSubTotalPrice.Text = cart.SubTotal.ToString("C");
+                    cartTotalPrice.Text = cart.Total.ToString("C");
                 };
 
                 foreach (Control child in panel.Controls)
@@ -157,10 +175,12 @@ namespace fast_food_system_desktop_app
 
                         productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
 
+                        cartSubTotalPrice.Text = cart.SubTotal.ToString("C");
+                        cartTotalPrice.Text = cart.Total.ToString("C");
                     };
                 }
 
-                homePanel.Controls.Add(panel);
+                homeFlowLayoutPanel.Controls.Add(panel);
             }
         }
 
@@ -208,19 +228,19 @@ namespace fast_food_system_desktop_app
         {
             Panel placeholderPanel = new Panel();
             placeholderPanel.BorderStyle = BorderStyle.Fixed3D;
-            placeholderPanel.Size = new Size(cartPanel.Width, 50);
+            placeholderPanel.Size = new Size(cartFlowLayoutPanel.Width, 50);
 
             Label placeholderCode = new Label();
             placeholderCode.BorderStyle = BorderStyle.FixedSingle;
             //placeholderCode.Size = new Size(100, placeholderPanel.Height);
-            placeholderCode.Size = new Size((int)(cartPanel.Width * 0.10), placeholderPanel.Height);
+            placeholderCode.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.10), placeholderPanel.Height);
             placeholderCode.Text = "Code";
             placeholderCode.TextAlign = ContentAlignment.MiddleCenter;
 
             Label placeholderName = new Label();
             placeholderName.BorderStyle = BorderStyle.FixedSingle;
             //placeholderName.Size = new Size(300, placeholderPanel.Height);
-            placeholderName.Size = new Size((int)(cartPanel.Width * 0.50), placeholderPanel.Height);
+            placeholderName.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.50), placeholderPanel.Height);
             placeholderName.Text = "Name";
             placeholderName.TextAlign = ContentAlignment.MiddleCenter;
             //placeholderName.Location = new Point(100, 0);
@@ -228,21 +248,21 @@ namespace fast_food_system_desktop_app
 
             Label placeholderPrice = new Label();
             placeholderPrice.BorderStyle = BorderStyle.FixedSingle;
-            placeholderPrice.Size = new Size((int)(cartPanel.Width * 0.10), placeholderPanel.Height);
+            placeholderPrice.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.10), placeholderPanel.Height);
             placeholderPrice.Text = "Price";
             placeholderPrice.TextAlign = ContentAlignment.MiddleCenter;
             placeholderPrice.Location = new Point(placeholderCode.Width + placeholderName.Width, 0);
 
             Label placeholderQuantity = new Label();
             placeholderQuantity.BorderStyle = BorderStyle.FixedSingle;
-            placeholderQuantity.Size = new Size((int)(cartPanel.Width * 0.15), placeholderPanel.Height);
+            placeholderQuantity.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.15), placeholderPanel.Height);
             placeholderQuantity.Text = "Quantity";
             placeholderQuantity.TextAlign = ContentAlignment.MiddleCenter;
             placeholderQuantity.Location = new Point(placeholderCode.Width + placeholderName.Width + placeholderPrice.Width, 0);
 
             Label placeholderTotalPrice = new Label();
             placeholderTotalPrice.BorderStyle = BorderStyle.FixedSingle;
-            placeholderTotalPrice.Size = new Size((int)(cartPanel.Width * 0.15), placeholderPanel.Height);
+            placeholderTotalPrice.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.15), placeholderPanel.Height);
             placeholderTotalPrice.Text = "Total Price";
             placeholderTotalPrice.TextAlign = ContentAlignment.MiddleCenter;
             placeholderTotalPrice.Location = new Point(placeholderCode.Width + placeholderName.Width + placeholderPrice.Width + placeholderQuantity.Width, 0);
@@ -253,7 +273,7 @@ namespace fast_food_system_desktop_app
             placeholderPanel.Controls.Add(placeholderQuantity);
             placeholderPanel.Controls.Add(placeholderTotalPrice);
 
-            cartPanel.Controls.Add(placeholderPanel);
+            cartFlowLayoutPanel.Controls.Add(placeholderPanel);
 
             foreach (CartProduct cartProduct in cartProducts)
             {
@@ -261,7 +281,7 @@ namespace fast_food_system_desktop_app
                 panel.BorderStyle = BorderStyle.Fixed3D;
                 panel.Cursor = Cursors.Hand;
                 panel.Margin = new Padding(panel.Margin.Left, 0, panel.Margin.Right, 0);
-                panel.Size = new Size(cartPanel.Width, 50);
+                panel.Size = new Size(cartFlowLayoutPanel.Width, 50);
 
                 Label cpCode = new Label();
                 //cpCode.AutoSize = true;
@@ -309,7 +329,7 @@ namespace fast_food_system_desktop_app
                 panel.Controls.Add(cpQuantity);
                 panel.Controls.Add(cpTotalPrice);
 
-                cartPanel.Controls.Add(panel);
+                cartFlowLayoutPanel.Controls.Add(panel);
             }
         }
 
@@ -330,7 +350,125 @@ namespace fast_food_system_desktop_app
                 }
             }
 
+            cartSubTotalPrice.Text = cart.SubTotal.ToString("C");
+            cartTotalPrice.Text = cart.Total.ToString("C");
+
             RefreshCurrentPanel();
+        }
+
+        private void DisplayCartDetails()
+        {
+            
+            int leftPadding = 10;
+            int topPadding = 10;
+
+            // Panel
+            cartDetailsPanel.Anchor = AnchorStyles.Right | AnchorStyles.Bottom;
+            cartDetailsPanel.AutoSize = true;
+            cartDetailsPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            cartDetailsPanel.BorderStyle = BorderStyle.FixedSingle;
+            cartDetailsPanel.Location = new Point(formPanel.Width - cartDetailsPanel.Width, formPanel.Height - cartDetailsPanel.Height);
+            cartDetailsPanel.Padding = new Padding(10);
+
+            // Label
+            customerNameLabel.AutoSize = true;
+            customerNameLabel.Text = "Name";
+            customerNameLabel.Location = new Point(leftPadding, topPadding);
+
+            Panel placeholderNameTextBox = new Panel();
+            placeholderNameTextBox.BorderStyle = BorderStyle.FixedSingle;
+            placeholderNameTextBox.Width = cartDetailsPanel.Width;
+            placeholderNameTextBox.Height = customerNameTextBox.Height + 5;
+            placeholderNameTextBox.Location = new Point(leftPadding, customerNameLabel.Bottom);
+
+            // TextBox
+            customerNameTextBox.BackColor = SystemColors.Control;
+            customerNameTextBox.BorderStyle = BorderStyle.None;
+            customerNameTextBox.Width = placeholderNameTextBox.Width - 20;
+            customerNameTextBox.Location = new Point(
+                (placeholderNameTextBox.Width - customerNameTextBox.Width) / 2,
+                (placeholderNameTextBox.Height - customerNameTextBox.Height) / 2
+                );
+
+            placeholderNameTextBox.Controls.Add(customerNameTextBox);
+
+            // Label
+            customerPhoneNumberLabel.AutoSize = true;
+            customerPhoneNumberLabel.Text = "Phone Number";
+            customerPhoneNumberLabel.Location = new Point(leftPadding, placeholderNameTextBox.Bottom + topPadding);
+
+            Panel placeholderPhoneNumberTextBox = new Panel();
+            placeholderPhoneNumberTextBox.BorderStyle = BorderStyle.FixedSingle;
+            placeholderPhoneNumberTextBox.Width = cartDetailsPanel.Width;
+            placeholderPhoneNumberTextBox.Height = customerPhoneNumberTextBox.Height + 5;
+            placeholderPhoneNumberTextBox.Location = new Point(leftPadding, customerPhoneNumberLabel.Bottom);
+
+            // TextBox
+            customerPhoneNumberTextBox.BackColor = SystemColors.Control;
+            customerPhoneNumberTextBox.BorderStyle = BorderStyle.None;
+            customerPhoneNumberTextBox.Location = new Point(leftPadding, customerPhoneNumberLabel.Bottom);
+            customerPhoneNumberTextBox.Width = placeholderPhoneNumberTextBox.Width - 20;
+            customerPhoneNumberTextBox.Location = new Point(
+                (placeholderPhoneNumberTextBox.Width - customerPhoneNumberTextBox.Width) / 2,
+                (placeholderPhoneNumberTextBox.Height - customerPhoneNumberTextBox.Height) / 2
+                );
+
+            placeholderPhoneNumberTextBox.Controls.Add(customerPhoneNumberTextBox);
+
+            // Label
+            customerAddressLabel.AutoSize = true;
+            customerAddressLabel.Text = "Address";
+            customerAddressLabel.Location = new Point(leftPadding, placeholderPhoneNumberTextBox.Bottom + topPadding);
+
+            Panel placeholderAddressTextBox = new Panel();
+            placeholderAddressTextBox.BorderStyle = BorderStyle.FixedSingle;
+            placeholderAddressTextBox.Width = cartDetailsPanel.Width;
+            placeholderAddressTextBox.Height = customerAddressTextBox.Height + 5;
+            placeholderAddressTextBox.Location = new Point(leftPadding, customerAddressLabel.Bottom);
+
+            // TextBox
+            customerAddressTextBox.BackColor = SystemColors.Control;
+            customerAddressTextBox.BorderStyle = BorderStyle.None;
+            customerAddressTextBox.Width = placeholderAddressTextBox.Width - 20;
+            customerAddressTextBox.Location = new Point(
+                (placeholderAddressTextBox.Width - customerAddressTextBox.Width) / 2,
+                (placeholderAddressTextBox.Height - customerAddressTextBox.Height) / 2
+                );
+
+            placeholderAddressTextBox.Controls.Add(customerAddressTextBox);
+
+            // Label
+            cartSubTotalPlaceholder.AutoSize = true;
+            cartSubTotalPlaceholder.Location = new Point(leftPadding, placeholderAddressTextBox.Bottom + topPadding);
+            cartSubTotalPlaceholder.Text = "SubTotal:";
+
+            // Label
+            cartSubTotalPrice.AutoSize = true;
+            cartSubTotalPrice.Location = new Point(cartSubTotalPlaceholder.PreferredWidth + leftPadding, placeholderAddressTextBox.Bottom + topPadding);
+            cartSubTotalPrice.Text = DataAccess.Cart.SubTotal.ToString("C");
+
+            // Label
+            cartTotalPlaceholder.AutoSize = true;
+            cartTotalPlaceholder.Location = new Point(leftPadding, cartSubTotalPlaceholder.Bottom);
+            cartTotalPlaceholder.Text = "Total:";
+
+            // Label
+            cartTotalPrice.AutoSize = true;
+            cartTotalPrice.Location = new Point(cartTotalPlaceholder.PreferredWidth + leftPadding, cartSubTotalPlaceholder.Bottom);
+            cartTotalPrice.Text = DataAccess.Cart.Total.ToString("C");
+
+            cartDetailsPanel.Controls.Add(customerNameLabel);
+            cartDetailsPanel.Controls.Add(placeholderNameTextBox);
+            cartDetailsPanel.Controls.Add(customerPhoneNumberLabel);
+            cartDetailsPanel.Controls.Add(placeholderPhoneNumberTextBox);
+            cartDetailsPanel.Controls.Add(customerAddressLabel);
+            cartDetailsPanel.Controls.Add(placeholderAddressTextBox);
+            cartDetailsPanel.Controls.Add(cartSubTotalPlaceholder);
+            cartDetailsPanel.Controls.Add(cartSubTotalPrice);
+            cartDetailsPanel.Controls.Add(cartTotalPlaceholder);
+            cartDetailsPanel.Controls.Add(cartTotalPrice);
+
+            formPanel.Controls.Add(cartDetailsPanel);
         }
 
         private void PlaceOrder(object sender, EventArgs e)
@@ -351,7 +489,7 @@ namespace fast_food_system_desktop_app
             {
                 CartId = cart.Id,
                 Cart = cart,
-                PhoneNumber = phoneNumberText.Text,
+                PhoneNumber = customerPhoneNumberTextBox.Text,
                 Type = selectedOrderType
                 // CustomerId = 
                 // Customer = 

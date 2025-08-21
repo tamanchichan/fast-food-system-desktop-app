@@ -1,4 +1,4 @@
-﻿- Update "cartPanel" display
+﻿- Update "cartPanel" display, display PST (7%) and GST (5%)
 
 - Create a "CreateOrderItems" method to display a list of "Order"
 

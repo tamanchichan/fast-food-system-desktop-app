@@ -28,36 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            homePanel = new FlowLayoutPanel();
-            cartPanel = new FlowLayoutPanel();
+            homeFlowLayoutPanel = new FlowLayoutPanel();
+            cartFlowLayoutPanel = new FlowLayoutPanel();
             cartButton = new Button();
             homeButton = new Button();
-            placeOrderButton = new Button();
-            phoneNumberLabel = new Label();
             dineInRadioButton = new RadioButton();
             pickUpRadioButton = new RadioButton();
             deliveryRadioButton = new RadioButton();
-            phoneNumberText = new TextBox();
             infoGroupBox = new GroupBox();
-            ordersPanel = new FlowLayoutPanel();
+            ordersFlowLayoutPanel = new FlowLayoutPanel();
             ordersButton = new Button();
             clearCartButton = new Button();
+            formPanel = new Panel();
+            placeOrderButton = new Button();
             infoGroupBox.SuspendLayout();
+            formPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // homePanel
+            // homeFlowLayoutPanel
             // 
-            homePanel.Location = new Point(12, 109);
-            homePanel.Name = "homePanel";
-            homePanel.Size = new Size(720, 600);
-            homePanel.TabIndex = 0;
+            homeFlowLayoutPanel.Location = new Point(12, 109);
+            homeFlowLayoutPanel.Name = "homeFlowLayoutPanel";
+            homeFlowLayoutPanel.Size = new Size(720, 600);
+            homeFlowLayoutPanel.TabIndex = 0;
             // 
-            // cartPanel
+            // cartFlowLayoutPanel
             // 
-            cartPanel.Location = new Point(12, 109);
-            cartPanel.Name = "cartPanel";
-            cartPanel.Size = new Size(720, 600);
-            cartPanel.TabIndex = 1;
+            cartFlowLayoutPanel.Location = new Point(12, 109);
+            cartFlowLayoutPanel.Name = "cartFlowLayoutPanel";
+            cartFlowLayoutPanel.Size = new Size(720, 600);
+            cartFlowLayoutPanel.TabIndex = 1;
             // 
             // cartButton
             // 
@@ -79,26 +79,6 @@
             homeButton.UseVisualStyleBackColor = true;
             homeButton.Click += ShowHomePanel;
             // 
-            // placeOrderButton
-            // 
-            placeOrderButton.Location = new Point(894, 659);
-            placeOrderButton.Name = "placeOrderButton";
-            placeOrderButton.Size = new Size(100, 50);
-            placeOrderButton.TabIndex = 4;
-            placeOrderButton.Text = "Place Order";
-            placeOrderButton.UseVisualStyleBackColor = true;
-            placeOrderButton.Visible = false;
-            placeOrderButton.Click += PlaceOrder;
-            // 
-            // phoneNumberLabel
-            // 
-            phoneNumberLabel.AutoSize = true;
-            phoneNumberLabel.Location = new Point(6, 113);
-            phoneNumberLabel.Name = "phoneNumberLabel";
-            phoneNumberLabel.Size = new Size(108, 20);
-            phoneNumberLabel.TabIndex = 5;
-            phoneNumberLabel.Text = "Phone Number";
-            // 
             // dineInRadioButton
             // 
             dineInRadioButton.AutoSize = true;
@@ -113,7 +93,7 @@
             // pickUpRadioButton
             // 
             pickUpRadioButton.AutoSize = true;
-            pickUpRadioButton.Location = new Point(6, 56);
+            pickUpRadioButton.Location = new Point(329, 26);
             pickUpRadioButton.Name = "pickUpRadioButton";
             pickUpRadioButton.Size = new Size(75, 24);
             pickUpRadioButton.TabIndex = 8;
@@ -124,7 +104,7 @@
             // deliveryRadioButton
             // 
             deliveryRadioButton.AutoSize = true;
-            deliveryRadioButton.Location = new Point(6, 86);
+            deliveryRadioButton.Location = new Point(630, 26);
             deliveryRadioButton.Name = "deliveryRadioButton";
             deliveryRadioButton.Size = new Size(84, 24);
             deliveryRadioButton.TabIndex = 9;
@@ -132,32 +112,23 @@
             deliveryRadioButton.Text = "Delivery";
             deliveryRadioButton.UseVisualStyleBackColor = true;
             // 
-            // phoneNumberText
-            // 
-            phoneNumberText.Location = new Point(6, 136);
-            phoneNumberText.Name = "phoneNumberText";
-            phoneNumberText.Size = new Size(108, 27);
-            phoneNumberText.TabIndex = 10;
-            // 
             // infoGroupBox
             // 
             infoGroupBox.Controls.Add(dineInRadioButton);
-            infoGroupBox.Controls.Add(phoneNumberText);
             infoGroupBox.Controls.Add(pickUpRadioButton);
             infoGroupBox.Controls.Add(deliveryRadioButton);
-            infoGroupBox.Controls.Add(phoneNumberLabel);
-            infoGroupBox.Location = new Point(781, 428);
+            infoGroupBox.Location = new Point(12, 12);
             infoGroupBox.Name = "infoGroupBox";
-            infoGroupBox.Size = new Size(213, 183);
+            infoGroupBox.Size = new Size(720, 72);
             infoGroupBox.TabIndex = 11;
             infoGroupBox.TabStop = false;
             // 
-            // ordersPanel
+            // ordersFlowLayoutPanel
             // 
-            ordersPanel.Location = new Point(12, 109);
-            ordersPanel.Name = "ordersPanel";
-            ordersPanel.Size = new Size(720, 600);
-            ordersPanel.TabIndex = 12;
+            ordersFlowLayoutPanel.Location = new Point(12, 109);
+            ordersFlowLayoutPanel.Name = "ordersFlowLayoutPanel";
+            ordersFlowLayoutPanel.Size = new Size(720, 600);
+            ordersFlowLayoutPanel.TabIndex = 12;
             // 
             // ordersButton
             // 
@@ -179,43 +150,62 @@
             clearCartButton.UseVisualStyleBackColor = true;
             clearCartButton.Click += ClearCart;
             // 
+            // formPanel
+            // 
+            formPanel.Controls.Add(placeOrderButton);
+            formPanel.Dock = DockStyle.Fill;
+            formPanel.Location = new Point(0, 0);
+            formPanel.Name = "formPanel";
+            formPanel.Size = new Size(1024, 768);
+            formPanel.TabIndex = 16;
+            // 
+            // placeOrderButton
+            // 
+            placeOrderButton.Location = new Point(891, 180);
+            placeOrderButton.Name = "placeOrderButton";
+            placeOrderButton.Size = new Size(100, 50);
+            placeOrderButton.TabIndex = 4;
+            placeOrderButton.Text = "Place Order";
+            placeOrderButton.UseVisualStyleBackColor = true;
+            placeOrderButton.Visible = false;
+            placeOrderButton.Click += PlaceOrder;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1006, 721);
+            ClientSize = new Size(1024, 768);
             Controls.Add(clearCartButton);
             Controls.Add(ordersButton);
             Controls.Add(infoGroupBox);
-            Controls.Add(homePanel);
-            Controls.Add(cartPanel);
-            Controls.Add(placeOrderButton);
             Controls.Add(homeButton);
             Controls.Add(cartButton);
-            Controls.Add(ordersPanel);
+            Controls.Add(homeFlowLayoutPanel);
+            Controls.Add(formPanel);
+            Controls.Add(cartFlowLayoutPanel);
+            Controls.Add(ordersFlowLayoutPanel);
             Name = "Form1";
-            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             infoGroupBox.ResumeLayout(false);
             infoGroupBox.PerformLayout();
+            formPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private FlowLayoutPanel homePanel;
-        private FlowLayoutPanel cartPanel;
+        private FlowLayoutPanel homeFlowLayoutPanel;
+        private FlowLayoutPanel cartFlowLayoutPanel;
         private Button cartButton;
         private Button homeButton;
-        private Button placeOrderButton;
-        private Label phoneNumberLabel;
         private RadioButton dineInRadioButton;
         private RadioButton pickUpRadioButton;
         private RadioButton deliveryRadioButton;
-        private TextBox phoneNumberText;
         private GroupBox infoGroupBox;
-        private FlowLayoutPanel ordersPanel;
+        private FlowLayoutPanel ordersFlowLayoutPanel;
         private Button ordersButton;
         private Button clearCartButton;
+        private Panel formPanel;
+        private Button placeOrderButton;
     }
 }
