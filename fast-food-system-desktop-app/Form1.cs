@@ -18,6 +18,7 @@ namespace fast_food_system_desktop_app
         private Label cartSubTotalPrice = new Label();
         private Label cartTotalPlaceholder = new Label();
         private Label cartTotalPrice = new Label();
+        private Button placeOrderButton = new Button();
 
         public Form1()
         {
@@ -365,7 +366,8 @@ namespace fast_food_system_desktop_app
             // Panel
             cartDetailsPanel.Anchor = AnchorStyles.Right | AnchorStyles.Bottom;
             cartDetailsPanel.AutoSize = true;
-            cartDetailsPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            cartDetailsPanel.Size = new Size(250, 0);
+            //cartDetailsPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             cartDetailsPanel.BorderStyle = BorderStyle.FixedSingle;
             cartDetailsPanel.Location = new Point(formPanel.Width - cartDetailsPanel.Width, formPanel.Height - cartDetailsPanel.Height);
             cartDetailsPanel.Padding = new Padding(10);
@@ -457,6 +459,21 @@ namespace fast_food_system_desktop_app
             cartTotalPrice.Location = new Point(cartTotalPlaceholder.PreferredWidth + leftPadding, cartSubTotalPlaceholder.Bottom);
             cartTotalPrice.Text = DataAccess.Cart.Total.ToString("C");
 
+            Panel placeholderPlaceOrderButton = new Panel();
+            //placeholderPlaceOrderButton.BorderStyle = BorderStyle.FixedSingle;
+            placeholderPlaceOrderButton.Size = new Size(100, 50);
+            placeholderPlaceOrderButton.Location = new Point(cartDetailsPanel.Width - placeOrderButton.Width - 15, placeholderAddressTextBox.Bottom + topPadding);
+            placeholderPlaceOrderButton.Padding = new Padding(0);
+
+            // Button
+            //placeOrderButton.AutoSize = true;
+            placeOrderButton.Size = new Size(placeholderPlaceOrderButton.Width, placeholderPlaceOrderButton.Height);
+            placeOrderButton.Visible = false;
+            placeOrderButton.Text = "Place Order";
+            //placeOrderButton.Location = new Point(cartDetailsPanel.Width - placeOrderButton.Width, cartTotalPlaceholder.Bottom + topPadding);
+
+            placeholderPlaceOrderButton.Controls.Add(placeOrderButton);
+
             cartDetailsPanel.Controls.Add(customerNameLabel);
             cartDetailsPanel.Controls.Add(placeholderNameTextBox);
             cartDetailsPanel.Controls.Add(customerPhoneNumberLabel);
@@ -467,6 +484,7 @@ namespace fast_food_system_desktop_app
             cartDetailsPanel.Controls.Add(cartSubTotalPrice);
             cartDetailsPanel.Controls.Add(cartTotalPlaceholder);
             cartDetailsPanel.Controls.Add(cartTotalPrice);
+            cartDetailsPanel.Controls.Add(placeholderPlaceOrderButton);
 
             formPanel.Controls.Add(cartDetailsPanel);
         }
@@ -505,6 +523,9 @@ namespace fast_food_system_desktop_app
             DataAccess.SaveOrders(); // Save the orders to the file
 
             ShowHomePanel(sender, e);
+
+            cartSubTotalPrice.Text = cart.SubTotal.ToString("C");
+            cartTotalPrice.Text = cart.Total.ToString("C");
         }
 
         private void ShowCartPanel(object sender, EventArgs e)
@@ -512,6 +533,7 @@ namespace fast_food_system_desktop_app
             currentPanel = PanelType.Cart;
             CartLoad();
             placeOrderButton.Visible = true;
+            placeOrderButton.Click += PlaceOrder;
         }
 
         private void ShowHomePanel(object sender, EventArgs e)

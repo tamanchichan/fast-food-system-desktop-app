@@ -40,7 +40,6 @@
             ordersButton = new Button();
             clearCartButton = new Button();
             formPanel = new Panel();
-            placeOrderButton = new Button();
             infoGroupBox.SuspendLayout();
             formPanel.SuspendLayout();
             SuspendLayout();
@@ -152,23 +151,11 @@
             // 
             // formPanel
             // 
-            formPanel.Controls.Add(placeOrderButton);
             formPanel.Dock = DockStyle.Fill;
             formPanel.Location = new Point(0, 0);
             formPanel.Name = "formPanel";
             formPanel.Size = new Size(1024, 768);
             formPanel.TabIndex = 16;
-            // 
-            // placeOrderButton
-            // 
-            placeOrderButton.Location = new Point(891, 180);
-            placeOrderButton.Name = "placeOrderButton";
-            placeOrderButton.Size = new Size(100, 50);
-            placeOrderButton.TabIndex = 4;
-            placeOrderButton.Text = "Place Order";
-            placeOrderButton.UseVisualStyleBackColor = true;
-            placeOrderButton.Visible = false;
-            placeOrderButton.Click += PlaceOrder;
             // 
             // Form1
             // 
@@ -206,6 +193,5 @@
         private Button ordersButton;
         private Button clearCartButton;
         private Panel formPanel;
-        private Button placeOrderButton;
     }
 }
