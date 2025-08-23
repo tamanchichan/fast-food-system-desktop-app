@@ -41,7 +41,6 @@
             clearCartButton = new Button();
             formPanel = new Panel();
             infoGroupBox.SuspendLayout();
-            formPanel.SuspendLayout();
             SuspendLayout();
             // 
             // homeFlowLayoutPanel
@@ -175,7 +174,6 @@
             Text = "Form1";
             infoGroupBox.ResumeLayout(false);
             infoGroupBox.PerformLayout();
-            formPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 

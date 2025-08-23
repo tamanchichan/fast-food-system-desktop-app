@@ -14,10 +14,10 @@ namespace fast_food_system_desktop_app
         private TextBox customerPhoneNumberTextBox = new TextBox();
         private Label customerAddressLabel = new Label();
         private TextBox customerAddressTextBox = new TextBox();
-        private Label cartSubTotalPlaceholder = new Label();
-        private Label cartSubTotalPrice = new Label();
-        private Label cartTotalPlaceholder = new Label();
-        private Label cartTotalPrice = new Label();
+        private Label cartSubTotalPlaceholderLabel = new Label();
+        private Label cartSubTotalPriceLabel = new Label();
+        private Label cartTotalPlaceholderLabel = new Label();
+        private Label cartTotalPriceLabel = new Label();
         private Button placeOrderButton = new Button();
 
         public Form1()
@@ -27,6 +27,8 @@ namespace fast_food_system_desktop_app
             HomeLoad();
 
             DisplayCartDetails();
+
+            placeOrderButton.Click += PlaceOrder;
 
             this.FormClosing += ClosingHandler;
         }
@@ -77,18 +79,7 @@ namespace fast_food_system_desktop_app
         {
             ordersFlowLayoutPanel.Controls.Clear();
 
-            // create a method to display orders properly later
-            foreach (Order order in DataAccess.Orders)
-            {
-                Panel panel = new Panel();
-
-                Label label = new Label();
-                label.Text = order.Number.ToString();
-
-                panel.Controls.Add(label);
-
-                ordersFlowLayoutPanel.Controls.Add(panel);
-            }
+            CreateOrderItems(DataAccess.Orders);
 
             ordersFlowLayoutPanel.BringToFront();
         }
@@ -162,8 +153,8 @@ namespace fast_food_system_desktop_app
 
                     productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
 
-                    cartSubTotalPrice.Text = cart.SubTotal.ToString("C");
-                    cartTotalPrice.Text = cart.Total.ToString("C");
+                    cartSubTotalPriceLabel.Text = cart.SubTotal.ToString("C");
+                    cartTotalPriceLabel.Text = cart.Total.ToString("C");
                 };
 
                 foreach (Control child in panel.Controls)
@@ -176,8 +167,8 @@ namespace fast_food_system_desktop_app
 
                         productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
 
-                        cartSubTotalPrice.Text = cart.SubTotal.ToString("C");
-                        cartTotalPrice.Text = cart.Total.ToString("C");
+                        cartSubTotalPriceLabel.Text = cart.SubTotal.ToString("C");
+                        cartTotalPriceLabel.Text = cart.Total.ToString("C");
                     };
                 }
 
@@ -351,8 +342,8 @@ namespace fast_food_system_desktop_app
                 }
             }
 
-            cartSubTotalPrice.Text = cart.SubTotal.ToString("C");
-            cartTotalPrice.Text = cart.Total.ToString("C");
+            cartSubTotalPriceLabel.Text = cart.SubTotal.ToString("C");
+            cartTotalPriceLabel.Text = cart.Total.ToString("C");
 
             RefreshCurrentPanel();
         }
@@ -440,24 +431,24 @@ namespace fast_food_system_desktop_app
             placeholderAddressTextBox.Controls.Add(customerAddressTextBox);
 
             // Label
-            cartSubTotalPlaceholder.AutoSize = true;
-            cartSubTotalPlaceholder.Location = new Point(leftPadding, placeholderAddressTextBox.Bottom + topPadding);
-            cartSubTotalPlaceholder.Text = "SubTotal:";
+            cartSubTotalPlaceholderLabel.AutoSize = true;
+            cartSubTotalPlaceholderLabel.Location = new Point(leftPadding, placeholderAddressTextBox.Bottom + topPadding);
+            cartSubTotalPlaceholderLabel.Text = "SubTotal:";
 
             // Label
-            cartSubTotalPrice.AutoSize = true;
-            cartSubTotalPrice.Location = new Point(cartSubTotalPlaceholder.PreferredWidth + leftPadding, placeholderAddressTextBox.Bottom + topPadding);
-            cartSubTotalPrice.Text = DataAccess.Cart.SubTotal.ToString("C");
+            cartSubTotalPriceLabel.AutoSize = true;
+            cartSubTotalPriceLabel.Location = new Point(cartSubTotalPlaceholderLabel.PreferredWidth + leftPadding, placeholderAddressTextBox.Bottom + topPadding);
+            cartSubTotalPriceLabel.Text = DataAccess.Cart.SubTotal.ToString("C");
 
             // Label
-            cartTotalPlaceholder.AutoSize = true;
-            cartTotalPlaceholder.Location = new Point(leftPadding, cartSubTotalPlaceholder.Bottom);
-            cartTotalPlaceholder.Text = "Total:";
+            cartTotalPlaceholderLabel.AutoSize = true;
+            cartTotalPlaceholderLabel.Location = new Point(leftPadding, cartSubTotalPlaceholderLabel.Bottom);
+            cartTotalPlaceholderLabel.Text = "Total:";
 
             // Label
-            cartTotalPrice.AutoSize = true;
-            cartTotalPrice.Location = new Point(cartTotalPlaceholder.PreferredWidth + leftPadding, cartSubTotalPlaceholder.Bottom);
-            cartTotalPrice.Text = DataAccess.Cart.Total.ToString("C");
+            cartTotalPriceLabel.AutoSize = true;
+            cartTotalPriceLabel.Location = new Point(cartTotalPlaceholderLabel.PreferredWidth + leftPadding, cartSubTotalPlaceholderLabel.Bottom);
+            cartTotalPriceLabel.Text = DataAccess.Cart.Total.ToString("C");
 
             Panel placeholderPlaceOrderButton = new Panel();
             //placeholderPlaceOrderButton.BorderStyle = BorderStyle.FixedSingle;
@@ -480,10 +471,10 @@ namespace fast_food_system_desktop_app
             cartDetailsPanel.Controls.Add(placeholderPhoneNumberTextBox);
             cartDetailsPanel.Controls.Add(customerAddressLabel);
             cartDetailsPanel.Controls.Add(placeholderAddressTextBox);
-            cartDetailsPanel.Controls.Add(cartSubTotalPlaceholder);
-            cartDetailsPanel.Controls.Add(cartSubTotalPrice);
-            cartDetailsPanel.Controls.Add(cartTotalPlaceholder);
-            cartDetailsPanel.Controls.Add(cartTotalPrice);
+            cartDetailsPanel.Controls.Add(cartSubTotalPlaceholderLabel);
+            cartDetailsPanel.Controls.Add(cartSubTotalPriceLabel);
+            cartDetailsPanel.Controls.Add(cartTotalPlaceholderLabel);
+            cartDetailsPanel.Controls.Add(cartTotalPriceLabel);
             cartDetailsPanel.Controls.Add(placeholderPlaceOrderButton);
 
             formPanel.Controls.Add(cartDetailsPanel);
@@ -522,18 +513,74 @@ namespace fast_food_system_desktop_app
             DataAccess.Orders.Add(order); // Add the order to the list
             DataAccess.SaveOrders(); // Save the orders to the file
 
-            ShowHomePanel(sender, e);
+            cart = DataAccess.Cart;
 
-            cartSubTotalPrice.Text = cart.SubTotal.ToString("C");
-            cartTotalPrice.Text = cart.Total.ToString("C");
+            cartSubTotalPriceLabel.Text = cart.SubTotal.ToString("C");
+            cartTotalPriceLabel.Text = cart.Total.ToString("C");
+
+            ShowHomePanel(sender, e);
+        }
+
+        private void CreateOrderItems(HashSet<Order> orders)
+        {
+            int leftPadding = 10;
+
+            ordersFlowLayoutPanel.AutoScroll = true;
+            ordersFlowLayoutPanel.VerticalScroll.Visible = true;
+
+            foreach (Order order in orders.OrderByDescending(o => o.Number))
+            {
+                Panel orderPanel = new Panel();
+                orderPanel.BorderStyle = BorderStyle.FixedSingle;
+                orderPanel.Height = 50;
+                orderPanel.Width = (ordersFlowLayoutPanel.Width - leftPadding - SystemInformation.VerticalScrollBarWidth);
+
+                Label orderDateOfCreationLabel = new Label();
+                orderDateOfCreationLabel.Size = new Size((int)(orderPanel.Width * 0.30), orderPanel.Height);
+                orderDateOfCreationLabel.Text = order.DateOfCreation.ToLocalTime().ToString();
+                orderDateOfCreationLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+                Label orderNumberLabel = new Label();
+                orderNumberLabel.Location = new Point(orderDateOfCreationLabel.Right, 0);
+                orderNumberLabel.Size = new Size((int)(orderPanel.Width * 0.20), orderPanel.Height);
+                orderNumberLabel.Text = order.Number.ToString();
+                orderNumberLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+                Label orderTypeLabel = new Label();
+                orderTypeLabel.Location = new Point(orderNumberLabel.Right, 0);
+                orderTypeLabel.Size = new Size((int)(orderPanel.Width * 0.20), orderPanel.Height);
+                orderTypeLabel.Text = order.Type.ToString();
+                orderTypeLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+                Label orderQuantityLabel = new Label();
+                orderQuantityLabel.Location = new Point(orderTypeLabel.Right, 0);
+                orderQuantityLabel.Size = new Size((int)(orderPanel.Width * 0.15), orderPanel.Height);
+                orderQuantityLabel.Text = order.Cart.CartProducts.Sum(cp => cp.Quantity).ToString();
+                orderQuantityLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+                Label orderTotalPriceLabel = new Label();
+                orderTotalPriceLabel.Location = new Point(orderQuantityLabel.Right, 0);
+                orderTotalPriceLabel.Size = new Size((int)(orderPanel.Width * 0.15), orderPanel.Height);
+                orderTotalPriceLabel.Text = order.Total.ToString("C");
+                orderTotalPriceLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+                orderPanel.Controls.Add(orderDateOfCreationLabel);
+                orderPanel.Controls.Add(orderNumberLabel);
+                orderPanel.Controls.Add(orderTypeLabel);
+                orderPanel.Controls.Add(orderQuantityLabel);
+                orderPanel.Controls.Add(orderTotalPriceLabel);
+
+                ordersFlowLayoutPanel.Controls.Add(orderPanel);
+            }
         }
 
         private void ShowCartPanel(object sender, EventArgs e)
         {
             currentPanel = PanelType.Cart;
-            CartLoad();
+
             placeOrderButton.Visible = true;
-            placeOrderButton.Click += PlaceOrder;
+
+            CartLoad();
         }
 
         private void ShowHomePanel(object sender, EventArgs e)

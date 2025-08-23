@@ -15,6 +15,8 @@ namespace fast_food_system_desktop_app.Model
 
         public int Number { get; set; }
 
+        public DateTime DateOfCreation { get; set; }
+
         public Guid CartId { get; set; }
 
         public Cart Cart { get; set; }
@@ -63,12 +65,14 @@ namespace fast_food_system_desktop_app.Model
         {
             Id = Guid.NewGuid();
             Number = _lastOrderNumber++;
+            DateOfCreation = DateTime.Now;
         }
 
         public Order(Guid cartId, Cart cart, Guid? customerId, Customer? customer, string? phoneNumber, OrderType? orderType, string? observation)
         {
             Id = Guid.NewGuid();
             Number = _lastOrderNumber++;
+            DateOfCreation = DateTime.Now;
             CartId = cartId;
             Cart = cart;
             CustomerId = customerId;
