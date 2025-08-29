@@ -18,6 +18,9 @@ namespace fast_food_system_desktop_app
             HomeLoad();
             DisplayCartDetails();
 
+            clockTimer.Tick += ClockTimer_Tick;
+            clockTimer.Start();
+
             this.FormClosing += ClosingHandler;
         }
 
@@ -532,6 +535,12 @@ namespace fast_food_system_desktop_app
             }
 
             e.Handled = true;
+        }
+
+        private void ClockTimer_Tick(object sender, EventArgs e)
+        {
+            clockTimerLabel.Text = DateTime.Now.ToString("hh:mm:ss tt");
+            clockTimerLabel.Location = new Point((clockTimerPanel.Width - clockTimerLabel.Width) / 2, (clockTimerPanel.Height - clockTimerLabel.Height) / 2);
         }
     }
 }

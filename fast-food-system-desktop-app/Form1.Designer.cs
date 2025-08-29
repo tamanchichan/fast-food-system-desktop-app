@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             homeFlowLayoutPanel = new FlowLayoutPanel();
             cartFlowLayoutPanel = new FlowLayoutPanel();
             cartButton = new Button();
@@ -40,6 +41,8 @@
             clearCartButton = new Button();
             formPanel = new Panel();
             cartDetailsPanel = new Panel();
+            clockTimerPanel = new Panel();
+            clockTimerLabel = new Label();
             observationPlaceholderPanel = new Panel();
             observationTextboxPanel = new Panel();
             observationTextbox = new TextBox();
@@ -76,8 +79,10 @@
             radiosPanel = new Panel();
             buttonsPanel = new Panel();
             customersButton = new Button();
+            clockTimer = new System.Windows.Forms.Timer(components);
             formPanel.SuspendLayout();
             cartDetailsPanel.SuspendLayout();
+            clockTimerPanel.SuspendLayout();
             observationPlaceholderPanel.SuspendLayout();
             observationTextboxPanel.SuspendLayout();
             namePlaceholderPanel.SuspendLayout();
@@ -225,6 +230,7 @@
             // cartDetailsPanel
             // 
             cartDetailsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            cartDetailsPanel.Controls.Add(clockTimerPanel);
             cartDetailsPanel.Controls.Add(observationPlaceholderPanel);
             cartDetailsPanel.Controls.Add(namePlaceholderPanel);
             cartDetailsPanel.Controls.Add(phoneNumberPlaceholderPanel);
@@ -242,9 +248,31 @@
             cartDetailsPanel.Size = new Size(300, 768);
             cartDetailsPanel.TabIndex = 2;
             // 
+            // clockTimerPanel
+            // 
+            clockTimerPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            clockTimerPanel.BorderStyle = BorderStyle.FixedSingle;
+            clockTimerPanel.Controls.Add(clockTimerLabel);
+            clockTimerPanel.Location = new Point(0, 39);
+            clockTimerPanel.Name = "clockTimerPanel";
+            clockTimerPanel.Size = new Size(300, 76);
+            clockTimerPanel.TabIndex = 30;
+            // 
+            // clockTimerLabel
+            // 
+            clockTimerLabel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            clockTimerLabel.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            clockTimerLabel.Location = new Point(70, 18);
+            clockTimerLabel.Name = "clockTimerLabel";
+            clockTimerLabel.Size = new Size(160, 40);
+            clockTimerLabel.TabIndex = 0;
+            clockTimerLabel.Text = "12:00:00";
+            clockTimerLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // observationPlaceholderPanel
             // 
-            observationPlaceholderPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            observationPlaceholderPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            observationPlaceholderPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             observationPlaceholderPanel.Controls.Add(observationTextboxPanel);
             observationPlaceholderPanel.Controls.Add(observationLabel);
             observationPlaceholderPanel.Location = new Point(0, 121);
@@ -254,11 +282,13 @@
             // 
             // observationTextboxPanel
             // 
+            observationTextboxPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            observationTextboxPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             observationTextboxPanel.BorderStyle = BorderStyle.FixedSingle;
             observationTextboxPanel.Controls.Add(observationTextbox);
             observationTextboxPanel.Location = new Point(5, 30);
             observationTextboxPanel.Name = "observationTextboxPanel";
-            observationTextboxPanel.Size = new Size(290, 100);
+            observationTextboxPanel.Size = new Size(292, 102);
             observationTextboxPanel.TabIndex = 35;
             // 
             // observationTextbox
@@ -269,7 +299,7 @@
             observationTextbox.Location = new Point(10, 10);
             observationTextbox.Multiline = true;
             observationTextbox.Name = "observationTextbox";
-            observationTextbox.Size = new Size(270, 80);
+            observationTextbox.Size = new Size(272, 82);
             observationTextbox.TabIndex = 11;
             // 
             // observationLabel
@@ -643,6 +673,10 @@
             customersButton.Text = "Customers";
             customersButton.UseVisualStyleBackColor = true;
             // 
+            // clockTimer
+            // 
+            clockTimer.Interval = 1000;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -653,6 +687,7 @@
             Text = "Form1";
             formPanel.ResumeLayout(false);
             cartDetailsPanel.ResumeLayout(false);
+            clockTimerPanel.ResumeLayout(false);
             observationPlaceholderPanel.ResumeLayout(false);
             observationPlaceholderPanel.PerformLayout();
             observationTextboxPanel.ResumeLayout(false);
@@ -739,5 +774,8 @@
         private Panel observationPlaceholderPanel;
         private Label observationLabel;
         private Panel observationTextboxPanel;
+        private Panel clockTimerPanel;
+        private Label clockTimerLabel;
+        private System.Windows.Forms.Timer clockTimer;
     }
 }

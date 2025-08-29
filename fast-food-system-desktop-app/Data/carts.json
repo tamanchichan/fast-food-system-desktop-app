@@ -444,6 +444,25 @@
       "OrderId": null,
       "CartProducts": {
         "$id": "74",
+        "$values": [
+          {
+            "$id": "75",
+            "Id": "00000000-0000-0000-0000-000000000000",
+            "CartId": "8f2219e7-3d12-4ef0-bde5-36662c490b8e",
+            "ProductId": "ca693735-9bf7-4364-bd7c-974793e10f3b",
+            "Price": 6.95,
+            "Quantity": 1,
+            "Observation": null
+          }
+        ]
+      }
+    },
+    {
+      "$id": "76",
+      "Id": "c9d028eb-ceef-4406-9036-731b147eee10",
+      "OrderId": null,
+      "CartProducts": {
+        "$id": "77",
         "$values": []
       }
     }
