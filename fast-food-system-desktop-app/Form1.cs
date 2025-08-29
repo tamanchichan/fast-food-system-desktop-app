@@ -1,34 +1,22 @@
 using fast_food_system_desktop_app.Data;
 using fast_food_system_desktop_app.Model;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Windows.Forms;
+using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.Globalization;
 
 namespace fast_food_system_desktop_app
 {
     public partial class Form1 : Form
     {
-        private Panel cartDetailsPanel = new Panel();
-        private Label customerNameLabel = new Label();
-        private TextBox customerNameTextBox = new TextBox();
-        private Label customerPhoneNumberLabel = new Label();
-        private TextBox customerPhoneNumberTextBox = new TextBox();
-        private Label customerAddressLabel = new Label();
-        private TextBox customerAddressTextBox = new TextBox();
-        private Label cartSubTotalPlaceholderLabel = new Label();
-        private Label cartSubTotalPriceLabel = new Label();
-        private Label cartTotalPlaceholderLabel = new Label();
-        private Label cartTotalPriceLabel = new Label();
-        private Button placeOrderButton = new Button();
-
         public Form1()
         {
             InitializeComponent();
 
             HomeLoad();
-
             DisplayCartDetails();
-
-            placeOrderButton.Click += PlaceOrder;
 
             this.FormClosing += ClosingHandler;
         }
@@ -64,6 +52,7 @@ namespace fast_food_system_desktop_app
             CreateHomeItems(DataAccess.Products);
 
             homeFlowLayoutPanel.BringToFront();
+            cartDetailsPanel.BringToFront();
         }
 
         protected void CartLoad()
@@ -73,6 +62,7 @@ namespace fast_food_system_desktop_app
             CreateCartItems(DataAccess.Cart.CartProducts);
 
             cartFlowLayoutPanel.BringToFront();
+            cartDetailsPanel.BringToFront();
         }
 
         protected void OrdersLoad()
@@ -93,6 +83,8 @@ namespace fast_food_system_desktop_app
 
         private void CreateHomeItems(HashSet<Product> products)
         {
+            Cart cart = DataAccess.Cart;
+
             foreach (Product product in products)
             {
                 product.CartProducts ??= new HashSet<CartProduct>();
@@ -110,7 +102,7 @@ namespace fast_food_system_desktop_app
                 productName.Cursor = Cursors.Hand;
 
                 Label productPrice = new Label();
-                productPrice.Text = product.Price.ToString("C");
+                productPrice.Text = product.Price.ToString("C", new CultureInfo("en-CA"));
                 productPrice.Location = new Point(
                     (panel.Width - productPrice.PreferredWidth) / 2,
                     (panel.Height - productPrice.PreferredHeight) / 2
@@ -125,9 +117,6 @@ namespace fast_food_system_desktop_app
                     5,
                     panel.Height - productCode.PreferredHeight - 10
                     );
-
-
-                Cart cart = DataAccess.Cart;
 
                 CartProduct cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == product.Id);
 
@@ -153,8 +142,7 @@ namespace fast_food_system_desktop_app
 
                     productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
 
-                    cartSubTotalPriceLabel.Text = cart.SubTotal.ToString("C");
-                    cartTotalPriceLabel.Text = cart.Total.ToString("C");
+                    DisplayCartDetails();
                 };
 
                 foreach (Control child in panel.Controls)
@@ -167,8 +155,7 @@ namespace fast_food_system_desktop_app
 
                         productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
 
-                        cartSubTotalPriceLabel.Text = cart.SubTotal.ToString("C");
-                        cartTotalPriceLabel.Text = cart.Total.ToString("C");
+                        DisplayCartDetails();
                     };
                 }
 
@@ -199,9 +186,9 @@ namespace fast_food_system_desktop_app
                 cartProduct = new CartProduct()
                 {
                     CartId = cart.Id,
-                    Cart = cart,
+                    //Cart = cart,
                     ProductId = product.Id,
-                    Product = product,
+                    //Product = product,
                     Price = product.Price,
                     Quantity = 1,
                     Observation = null,
@@ -269,6 +256,8 @@ namespace fast_food_system_desktop_app
 
             foreach (CartProduct cartProduct in cartProducts)
             {
+                Product product = DataAccess.Products.FirstOrDefault(p => p.Id == cartProduct.ProductId);
+
                 Panel panel = new Panel();
                 panel.BorderStyle = BorderStyle.Fixed3D;
                 panel.Cursor = Cursors.Hand;
@@ -278,14 +267,16 @@ namespace fast_food_system_desktop_app
                 Label cpCode = new Label();
                 //cpCode.AutoSize = true;
                 cpCode.Size = new Size(placeholderCode.Width, panel.Height);
-                cpCode.Text = cartProduct.Product.Code;
+                //cpCode.Text = cartProduct.Product.Code;
+                cpCode.Text = product.Code;
                 cpCode.TextAlign = ContentAlignment.MiddleCenter;
                 //cpCode.Location = new Point(5, (panel.Height - cpCode.PreferredHeight) / 2);
 
                 Label cpName = new Label();
                 //cpName.AutoSize = true;
                 cpName.Size = new Size(placeholderName.Width, panel.Height);
-                cpName.Text = cartProduct.Product.Name;
+                //cpName.Text = cartProduct.Product.Name;
+                cpName.Text = product.Name;
                 cpName.TextAlign = ContentAlignment.MiddleCenter;
                 //cpName.Location = new Point((cpCode.PreferredWidth + 10), (panel.Height - cpName.PreferredHeight) / 2);
                 cpName.Location = new Point(cpCode.Width, 0);
@@ -294,7 +285,7 @@ namespace fast_food_system_desktop_app
                 Label cpPrice = new Label();
                 //cpPrice.AutoSize = true;
                 cpPrice.Size = new Size(placeholderPrice.Width, panel.Height);
-                cpPrice.Text = cartProduct.Price.ToString("C");
+                cpPrice.Text = cartProduct.Price.ToString("C", new CultureInfo("en-CA"));
                 cpPrice.TextAlign = ContentAlignment.MiddleCenter;
                 //cpPrice.Location = new Point((cpCode.PreferredWidth + cpName.PreferredWidth + 10), (panel.Height - cpPrice.PreferredHeight) / 2);
                 cpPrice.Location = new Point(cpCode.Width + cpName.Width, 0);
@@ -310,7 +301,7 @@ namespace fast_food_system_desktop_app
                 Label cpTotalPrice = new Label();
                 //cpTotalPrice.AutoSize = true;
                 cpTotalPrice.Size = new Size (placeholderTotalPrice.Width, panel.Height);
-                cpTotalPrice.Text = (cartProduct.Quantity * cartProduct.Price).ToString("C");
+                cpTotalPrice.Text = (cartProduct.Quantity * cartProduct.Price).ToString("C", new CultureInfo("en-CA"));
                 cpTotalPrice.TextAlign = ContentAlignment.MiddleCenter;
                 //cpTotalPrice.Location = new Point((cpCode.PreferredWidth + cpName.PreferredWidth + cpPrice.PreferredWidth + cpQuantity.PreferredWidth + 10), (panel.Height - cpTotalPrice.PreferredHeight) / 2);
                 cpTotalPrice.Location = new Point(cpCode.Width + cpName.Width + cpPrice.Width + cpQuantity.Width, 0);
@@ -342,167 +333,93 @@ namespace fast_food_system_desktop_app
                 }
             }
 
-            cartSubTotalPriceLabel.Text = cart.SubTotal.ToString("C");
-            cartTotalPriceLabel.Text = cart.Total.ToString("C");
+            deliveryFeeTextbox.Text = 0m.ToString("C", new CultureInfo("en-CA"));
+
+            DisplayCartDetails();
 
             RefreshCurrentPanel();
         }
 
         private void DisplayCartDetails()
         {
-            
-            int leftPadding = 10;
-            int topPadding = 10;
+            Cart cart = DataAccess.Cart;
+            decimal deliveryCharge = deliveryFeeTextbox.Text == "" ? 0m : decimal.Parse(deliveryFeeTextbox.Text, NumberStyles.Currency, new CultureInfo("en-CA"));
+            decimal subTotal = deliveryCharge + (cart.CartProducts.Sum(cp => cp.Quantity * cp.Price));
+            decimal pst = subTotal * 0.07m;
+            decimal gst = subTotal * 0.05m;
+            decimal total = subTotal + pst + gst;
 
-            // Panel
-            cartDetailsPanel.Anchor = AnchorStyles.Right | AnchorStyles.Bottom;
-            cartDetailsPanel.AutoSize = true;
-            cartDetailsPanel.Size = new Size(250, 0);
-            //cartDetailsPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            cartDetailsPanel.BorderStyle = BorderStyle.FixedSingle;
-            cartDetailsPanel.Location = new Point(formPanel.Width - cartDetailsPanel.Width, formPanel.Height - cartDetailsPanel.Height);
-            cartDetailsPanel.Padding = new Padding(10);
+            subTotalPriceLabel.Text = subTotal.ToString("C", new CultureInfo("en-CA"));
+            subTotalPriceLabel.Location = new Point(subTotalPricePlaceholderPanel.Width - subTotalPriceLabel.PreferredWidth, 5);
 
-            // Label
-            customerNameLabel.AutoSize = true;
-            customerNameLabel.Text = "Name";
-            customerNameLabel.Location = new Point(leftPadding, topPadding);
+            pstPriceLabel.Text = pst.ToString("C", new CultureInfo("en-CA"));
+            pstPriceLabel.Location = new Point(pstPricePlaceholderPanel.Width - pstPriceLabel.PreferredWidth, 5);
 
-            Panel placeholderNameTextBox = new Panel();
-            placeholderNameTextBox.BorderStyle = BorderStyle.FixedSingle;
-            placeholderNameTextBox.Width = cartDetailsPanel.Width;
-            placeholderNameTextBox.Height = customerNameTextBox.Height + 5;
-            placeholderNameTextBox.Location = new Point(leftPadding, customerNameLabel.Bottom);
+            gstPriceLabel.Text = gst.ToString("C", new CultureInfo("en-CA"));
+            gstPriceLabel.Location = new Point(gstPricePlaceholderPanel.Width - gstPriceLabel.PreferredWidth, 5);
 
-            // TextBox
-            customerNameTextBox.BackColor = SystemColors.Control;
-            customerNameTextBox.BorderStyle = BorderStyle.None;
-            customerNameTextBox.Width = placeholderNameTextBox.Width - 20;
-            customerNameTextBox.Location = new Point(
-                (placeholderNameTextBox.Width - customerNameTextBox.Width) / 2,
-                (placeholderNameTextBox.Height - customerNameTextBox.Height) / 2
-                );
-
-            placeholderNameTextBox.Controls.Add(customerNameTextBox);
-
-            // Label
-            customerPhoneNumberLabel.AutoSize = true;
-            customerPhoneNumberLabel.Text = "Phone Number";
-            customerPhoneNumberLabel.Location = new Point(leftPadding, placeholderNameTextBox.Bottom + topPadding);
-
-            Panel placeholderPhoneNumberTextBox = new Panel();
-            placeholderPhoneNumberTextBox.BorderStyle = BorderStyle.FixedSingle;
-            placeholderPhoneNumberTextBox.Width = cartDetailsPanel.Width;
-            placeholderPhoneNumberTextBox.Height = customerPhoneNumberTextBox.Height + 5;
-            placeholderPhoneNumberTextBox.Location = new Point(leftPadding, customerPhoneNumberLabel.Bottom);
-
-            // TextBox
-            customerPhoneNumberTextBox.BackColor = SystemColors.Control;
-            customerPhoneNumberTextBox.BorderStyle = BorderStyle.None;
-            customerPhoneNumberTextBox.Location = new Point(leftPadding, customerPhoneNumberLabel.Bottom);
-            customerPhoneNumberTextBox.Width = placeholderPhoneNumberTextBox.Width - 20;
-            customerPhoneNumberTextBox.Location = new Point(
-                (placeholderPhoneNumberTextBox.Width - customerPhoneNumberTextBox.Width) / 2,
-                (placeholderPhoneNumberTextBox.Height - customerPhoneNumberTextBox.Height) / 2
-                );
-
-            placeholderPhoneNumberTextBox.Controls.Add(customerPhoneNumberTextBox);
-
-            // Label
-            customerAddressLabel.AutoSize = true;
-            customerAddressLabel.Text = "Address";
-            customerAddressLabel.Location = new Point(leftPadding, placeholderPhoneNumberTextBox.Bottom + topPadding);
-
-            Panel placeholderAddressTextBox = new Panel();
-            placeholderAddressTextBox.BorderStyle = BorderStyle.FixedSingle;
-            placeholderAddressTextBox.Width = cartDetailsPanel.Width;
-            placeholderAddressTextBox.Height = customerAddressTextBox.Height + 5;
-            placeholderAddressTextBox.Location = new Point(leftPadding, customerAddressLabel.Bottom);
-
-            // TextBox
-            customerAddressTextBox.BackColor = SystemColors.Control;
-            customerAddressTextBox.BorderStyle = BorderStyle.None;
-            customerAddressTextBox.Width = placeholderAddressTextBox.Width - 20;
-            customerAddressTextBox.Location = new Point(
-                (placeholderAddressTextBox.Width - customerAddressTextBox.Width) / 2,
-                (placeholderAddressTextBox.Height - customerAddressTextBox.Height) / 2
-                );
-
-            placeholderAddressTextBox.Controls.Add(customerAddressTextBox);
-
-            // Label
-            cartSubTotalPlaceholderLabel.AutoSize = true;
-            cartSubTotalPlaceholderLabel.Location = new Point(leftPadding, placeholderAddressTextBox.Bottom + topPadding);
-            cartSubTotalPlaceholderLabel.Text = "SubTotal:";
-
-            // Label
-            cartSubTotalPriceLabel.AutoSize = true;
-            cartSubTotalPriceLabel.Location = new Point(cartSubTotalPlaceholderLabel.PreferredWidth + leftPadding, placeholderAddressTextBox.Bottom + topPadding);
-            cartSubTotalPriceLabel.Text = DataAccess.Cart.SubTotal.ToString("C");
-
-            // Label
-            cartTotalPlaceholderLabel.AutoSize = true;
-            cartTotalPlaceholderLabel.Location = new Point(leftPadding, cartSubTotalPlaceholderLabel.Bottom);
-            cartTotalPlaceholderLabel.Text = "Total:";
-
-            // Label
-            cartTotalPriceLabel.AutoSize = true;
-            cartTotalPriceLabel.Location = new Point(cartTotalPlaceholderLabel.PreferredWidth + leftPadding, cartSubTotalPlaceholderLabel.Bottom);
-            cartTotalPriceLabel.Text = DataAccess.Cart.Total.ToString("C");
-
-            Panel placeholderPlaceOrderButton = new Panel();
-            //placeholderPlaceOrderButton.BorderStyle = BorderStyle.FixedSingle;
-            placeholderPlaceOrderButton.Size = new Size(100, 50);
-            placeholderPlaceOrderButton.Location = new Point(cartDetailsPanel.Width - placeOrderButton.Width - 15, placeholderAddressTextBox.Bottom + topPadding);
-            placeholderPlaceOrderButton.Padding = new Padding(0);
-
-            // Button
-            //placeOrderButton.AutoSize = true;
-            placeOrderButton.Size = new Size(placeholderPlaceOrderButton.Width, placeholderPlaceOrderButton.Height);
-            placeOrderButton.Visible = false;
-            placeOrderButton.Text = "Place Order";
-            //placeOrderButton.Location = new Point(cartDetailsPanel.Width - placeOrderButton.Width, cartTotalPlaceholder.Bottom + topPadding);
-
-            placeholderPlaceOrderButton.Controls.Add(placeOrderButton);
-
-            cartDetailsPanel.Controls.Add(customerNameLabel);
-            cartDetailsPanel.Controls.Add(placeholderNameTextBox);
-            cartDetailsPanel.Controls.Add(customerPhoneNumberLabel);
-            cartDetailsPanel.Controls.Add(placeholderPhoneNumberTextBox);
-            cartDetailsPanel.Controls.Add(customerAddressLabel);
-            cartDetailsPanel.Controls.Add(placeholderAddressTextBox);
-            cartDetailsPanel.Controls.Add(cartSubTotalPlaceholderLabel);
-            cartDetailsPanel.Controls.Add(cartSubTotalPriceLabel);
-            cartDetailsPanel.Controls.Add(cartTotalPlaceholderLabel);
-            cartDetailsPanel.Controls.Add(cartTotalPriceLabel);
-            cartDetailsPanel.Controls.Add(placeholderPlaceOrderButton);
-
-            formPanel.Controls.Add(cartDetailsPanel);
+            totalPriceLabel.Text = total.ToString("C", new CultureInfo("en-CA"));
+            totalPriceLabel.Location = new Point(totalPricePlaceholderPanel.Width - totalPriceLabel.PreferredWidth, 5);
         }
 
         private void PlaceOrder(object sender, EventArgs e)
         {
             Cart cart = DataAccess.Cart;
+            decimal deliveryFee = deliveryFeeTextbox.Text == "" ? 0m : decimal.Parse(deliveryFeeTextbox.Text, NumberStyles.Currency, new CultureInfo("en-CA"));
+            decimal subTotal = deliveryFee + (cart.CartProducts.Sum(cp => cp.Price * cp.Quantity));
+            decimal pst = subTotal * 0.07m;
+            decimal gst = subTotal * 0.05m;
+            decimal total = subTotal + pst + gst;
 
             Order.OrderType selectedOrderType = Order.OrderType.PickUp;
 
-            foreach (RadioButton radioButton in infoGroupBox.Controls.OfType<RadioButton>()) // change this later
+            foreach (RadioButton radioButton in radiosPanel.Controls.OfType<RadioButton>())
             {
                 if (radioButton.Checked)
                 {
-                    selectedOrderType = Enum.Parse<Order.OrderType>(radioButton.Text);
+                    if (radioButton.Text == "Dine-In")
+                    {
+                        selectedOrderType = Order.OrderType.DineIn;
+                    }
+                    else if (radioButton.Text == "Pick-Up")
+                    {
+                        selectedOrderType = Order.OrderType.PickUp;
+                    }
+                    else if (radioButton.Text == "Delivery")
+                    {
+                        selectedOrderType = Order.OrderType.Delivery;
+                    }
                 }
+
+                radioButton.Checked = false;
             }
 
             Order order = new Order()
             {
+                //Id = Guid.NewGuid();
+                //Number = _lastOrderNumber++;
+                //DateOfCreation = DateTime.Now;
+                //CartId = cartId;
+                //CustomerId = customerId;
+                //PhoneNumber = phoneNumber;
+                //Type = orderType;
+                //Observation = observation;
+                //DeliveryFee = deliveryFee,
+                //SubTotal = subTotal;
+                //Pst = pst;
+                //Gst = gst;
+                //Total = total;
+
                 CartId = cart.Id,
-                Cart = cart,
-                PhoneNumber = customerPhoneNumberTextBox.Text,
-                Type = selectedOrderType
                 // CustomerId = 
-                // Customer = 
-                // Observation = 
+                PhoneNumber = phoneNumberTextbox.Text,
+                Type = selectedOrderType,
+                // Observation =
+                DeliveryFee = deliveryFee,
+                SubTotal = subTotal,
+                Pst = pst,
+                Gst = gst,
+                Total = total
             };
 
             DataAccess.Carts.Add(cart); // Save the current cart
@@ -513,10 +430,9 @@ namespace fast_food_system_desktop_app
             DataAccess.Orders.Add(order); // Add the order to the list
             DataAccess.SaveOrders(); // Save the orders to the file
 
-            cart = DataAccess.Cart;
+            cart = DataAccess.Cart; // Get the new cart
 
-            cartSubTotalPriceLabel.Text = cart.SubTotal.ToString("C");
-            cartTotalPriceLabel.Text = cart.Total.ToString("C");
+            ClearCart(sender, e);
 
             ShowHomePanel(sender, e);
         }
@@ -530,6 +446,8 @@ namespace fast_food_system_desktop_app
 
             foreach (Order order in orders.OrderByDescending(o => o.Number))
             {
+                Cart cart = DataAccess.Carts.FirstOrDefault(c => c.Id == order.CartId);
+
                 Panel orderPanel = new Panel();
                 orderPanel.BorderStyle = BorderStyle.FixedSingle;
                 orderPanel.Height = 50;
@@ -555,13 +473,13 @@ namespace fast_food_system_desktop_app
                 Label orderQuantityLabel = new Label();
                 orderQuantityLabel.Location = new Point(orderTypeLabel.Right, 0);
                 orderQuantityLabel.Size = new Size((int)(orderPanel.Width * 0.15), orderPanel.Height);
-                orderQuantityLabel.Text = order.Cart.CartProducts.Sum(cp => cp.Quantity).ToString();
+                orderQuantityLabel.Text = cart.CartProducts.Sum(cp => cp.Quantity).ToString();
                 orderQuantityLabel.TextAlign = ContentAlignment.MiddleCenter;
 
                 Label orderTotalPriceLabel = new Label();
                 orderTotalPriceLabel.Location = new Point(orderQuantityLabel.Right, 0);
                 orderTotalPriceLabel.Size = new Size((int)(orderPanel.Width * 0.15), orderPanel.Height);
-                orderTotalPriceLabel.Text = order.Total.ToString("C");
+                orderTotalPriceLabel.Text = order.Total.ToString("C", new CultureInfo("en-CA"));
                 orderTotalPriceLabel.TextAlign = ContentAlignment.MiddleCenter;
 
                 orderPanel.Controls.Add(orderDateOfCreationLabel);
@@ -577,9 +495,6 @@ namespace fast_food_system_desktop_app
         private void ShowCartPanel(object sender, EventArgs e)
         {
             currentPanel = PanelType.Cart;
-
-            placeOrderButton.Visible = true;
-
             CartLoad();
         }
 
@@ -587,13 +502,36 @@ namespace fast_food_system_desktop_app
         {
             currentPanel = PanelType.Home;
             HomeLoad();
-            placeOrderButton.Visible = false;
         }
 
         private void ShowOrdersPanel(object sender, EventArgs e)
         {
             OrdersLoad();
-            placeOrderButton.Visible = false;
+        }
+
+        private void DeliveryChargeTextbox_TextChanged(object sender, EventArgs e)
+        {
+            DisplayCartDetails();
+        }
+
+        private void DeliveryChargeTextbox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            if (char.IsDigit(e.KeyChar))
+            {
+                return;
+            }
+
+            if (e.KeyChar == '.' && !((TextBox)sender).Text.Contains("."))
+            {
+                return;
+            }
+
+            e.Handled = true;
         }
     }
 }

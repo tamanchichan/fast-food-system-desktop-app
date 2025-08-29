@@ -23,7 +23,7 @@ namespace fast_food_system_desktop_app.Data
             {
                 product.ProductCategories ??= new HashSet<ProductCategory>();
 
-                ProductCategory productCategory = new ProductCategory(product.Id, product, category.Id, category);
+                ProductCategory productCategory = new ProductCategory(product.Id, category.Id);
 
                 product.ProductCategories.Add(productCategory);
                 category.ProductCategories.Add(productCategory);

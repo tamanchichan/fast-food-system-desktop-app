@@ -12,21 +12,28 @@ namespace fast_food_system_desktop_app.Model
 
         public Guid ProductId { get; set; }
 
-        public Product Product { get; set; }
+        //public Product Product { get; set; }
 
         public Guid CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        //public Category Category { get; set; }
 
         public ProductCategory() { }
 
-        public ProductCategory(Guid productId, Product product, Guid categoryId, Category category)
+        //public ProductCategory(Guid productId, Product product, Guid categoryId, Category category)
+        //{
+        //    Id = Guid.NewGuid();
+        //    ProductId = productId;
+        //    Product = product;
+        //    CategoryId = categoryId;
+        //    Category = category;
+        //}
+
+        public ProductCategory(Guid productId, Guid categoryId)
         {
             Id = Guid.NewGuid();
             ProductId = productId;
-            Product = product;
             CategoryId = categoryId;
-            Category = category;
         }
     }
 }
