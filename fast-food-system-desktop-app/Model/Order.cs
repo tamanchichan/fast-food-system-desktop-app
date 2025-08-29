@@ -92,7 +92,7 @@ namespace fast_food_system_desktop_app.Model
         //    Observation = observation;
         //}
 
-        public Order(Guid cartId, Cart cart, Guid? customerId, string? phoneNumber, OrderType orderType, string? observation, decimal deliveryFee, decimal subTotal, decimal pst, decimal gst, decimal total)
+        public Order(Guid cartId, Guid? customerId, string? phoneNumber, OrderType orderType, string? observation, decimal deliveryFee, decimal subTotal, decimal pst, decimal gst, decimal total)
         {
             Id = Guid.NewGuid();
             Number = _lastOrderNumber++;

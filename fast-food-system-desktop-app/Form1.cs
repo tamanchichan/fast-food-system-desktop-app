@@ -367,77 +367,94 @@ namespace fast_food_system_desktop_app
 
         private void PlaceOrder(object sender, EventArgs e)
         {
-            Cart cart = DataAccess.Cart;
-            decimal deliveryFee = deliveryFeeTextbox.Text == "" ? 0m : decimal.Parse(deliveryFeeTextbox.Text, NumberStyles.Currency, new CultureInfo("en-CA"));
-            decimal subTotal = deliveryFee + (cart.CartProducts.Sum(cp => cp.Price * cp.Quantity));
-            decimal pst = subTotal * 0.07m;
-            decimal gst = subTotal * 0.05m;
-            decimal total = subTotal + pst + gst;
-
-            Order.OrderType selectedOrderType = Order.OrderType.PickUp;
-
-            foreach (RadioButton radioButton in radiosPanel.Controls.OfType<RadioButton>())
+            try
             {
-                if (radioButton.Checked)
+                Cart cart = DataAccess.Cart;
+
+                if (cart.CartProducts.Count == 0 || cart.CartProducts == null)
                 {
-                    if (radioButton.Text == "Dine-In")
-                    {
-                        selectedOrderType = Order.OrderType.DineIn;
-                    }
-                    else if (radioButton.Text == "Pick-Up")
-                    {
-                        selectedOrderType = Order.OrderType.PickUp;
-                    }
-                    else if (radioButton.Text == "Delivery")
-                    {
-                        selectedOrderType = Order.OrderType.Delivery;
-                    }
+                    throw new ValidationException("Cart is empty. Please add items to the cart before placing an order.");
                 }
 
-                radioButton.Checked = false;
+                decimal deliveryFee = deliveryFeeTextbox.Text == "" ? 0m : decimal.Parse(deliveryFeeTextbox.Text, NumberStyles.Currency, new CultureInfo("en-CA"));
+                decimal subTotal = deliveryFee + (cart.CartProducts.Sum(cp => cp.Price * cp.Quantity));
+                decimal pst = subTotal * 0.07m;
+                decimal gst = subTotal * 0.05m;
+                decimal total = subTotal + pst + gst;
+
+                Order.OrderType selectedOrderType = Order.OrderType.PickUp;
+
+                foreach (RadioButton radioButton in radiosPanel.Controls.OfType<RadioButton>())
+                {
+                    if (radioButton.Checked)
+                    {
+                        if (radioButton.Text == "Dine-In")
+                        {
+                            selectedOrderType = Order.OrderType.DineIn;
+                        }
+                        else if (radioButton.Text == "Pick-Up")
+                        {
+                            selectedOrderType = Order.OrderType.PickUp;
+                        }
+                        else if (radioButton.Text == "Delivery")
+                        {
+                            selectedOrderType = Order.OrderType.Delivery;
+                        }
+                    }
+
+                    radioButton.Checked = false;
+                }
+
+                Order order = new Order()
+                {
+                    //Id = Guid.NewGuid();
+                    //Number = _lastOrderNumber++;
+                    //DateOfCreation = DateTime.Now;
+                    //CartId = cartId;
+                    //CustomerId = customerId;
+                    //PhoneNumber = phoneNumber;
+                    //Type = orderType;
+                    //Observation = observation;
+                    //DeliveryFee = deliveryFee,
+                    //SubTotal = subTotal;
+                    //Pst = pst;
+                    //Gst = gst;
+                    //Total = total;
+
+                    CartId = cart.Id,
+                    // CustomerId = 
+                    PhoneNumber = phoneNumberTextbox.Text,
+                    Type = selectedOrderType,
+                    // Observation =
+                    DeliveryFee = deliveryFee,
+                    SubTotal = subTotal,
+                    Pst = pst,
+                    Gst = gst,
+                    Total = total
+                };
+
+                DataAccess.Carts.Add(cart); // Save the current cart
+                DataAccess.Cart = new Cart(); // Create a new cart for the next order
+                DataAccess.Carts.Add(DataAccess.Cart); // Add the new cart to the list
+                DataAccess.SaveCarts(); // Save the carts to the file
+
+                DataAccess.Orders.Add(order); // Add the order to the list
+                DataAccess.SaveOrders(); // Save the orders to the file
+
+                cart = DataAccess.Cart; // Get the new cart
+
+                ClearCart(sender, e);
+
+                ShowHomePanel(sender, e);
             }
-
-            Order order = new Order()
+            catch (ValidationException ex)
             {
-                //Id = Guid.NewGuid();
-                //Number = _lastOrderNumber++;
-                //DateOfCreation = DateTime.Now;
-                //CartId = cartId;
-                //CustomerId = customerId;
-                //PhoneNumber = phoneNumber;
-                //Type = orderType;
-                //Observation = observation;
-                //DeliveryFee = deliveryFee,
-                //SubTotal = subTotal;
-                //Pst = pst;
-                //Gst = gst;
-                //Total = total;
-
-                CartId = cart.Id,
-                // CustomerId = 
-                PhoneNumber = phoneNumberTextbox.Text,
-                Type = selectedOrderType,
-                // Observation =
-                DeliveryFee = deliveryFee,
-                SubTotal = subTotal,
-                Pst = pst,
-                Gst = gst,
-                Total = total
-            };
-
-            DataAccess.Carts.Add(cart); // Save the current cart
-            DataAccess.Cart = new Cart(); // Create a new cart for the next order
-            DataAccess.Carts.Add(DataAccess.Cart); // Add the new cart to the list
-            DataAccess.SaveCarts(); // Save the carts to the file
-
-            DataAccess.Orders.Add(order); // Add the order to the list
-            DataAccess.SaveOrders(); // Save the orders to the file
-
-            cart = DataAccess.Cart; // Get the new cart
-
-            ClearCart(sender, e);
-
-            ShowHomePanel(sender, e);
+                MessageBox.Show(ex.Message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void CreateOrderItems(HashSet<Order> orders)
