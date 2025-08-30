@@ -41,6 +41,7 @@
             clearCartButton = new Button();
             formPanel = new Panel();
             cartDetailsPanel = new Panel();
+            phoneSuggestionsFlowPanel = new FlowLayoutPanel();
             clockTimerPanel = new Panel();
             clockTimerLabel = new Label();
             observationPlaceholderPanel = new Panel();
@@ -242,11 +243,21 @@
             cartDetailsPanel.Controls.Add(subTotalPricePlaceholderPanel);
             cartDetailsPanel.Controls.Add(placeOrderButton);
             cartDetailsPanel.Controls.Add(radiosPanel);
+            cartDetailsPanel.Controls.Add(phoneSuggestionsFlowPanel);
             cartDetailsPanel.Font = new Font("Microsoft Sans Serif", 10F);
             cartDetailsPanel.Location = new Point(723, 0);
             cartDetailsPanel.Name = "cartDetailsPanel";
             cartDetailsPanel.Size = new Size(300, 768);
             cartDetailsPanel.TabIndex = 2;
+            // 
+            // phoneSuggestionFlowPanel
+            // 
+            phoneSuggestionsFlowPanel.BorderStyle = BorderStyle.FixedSingle;
+            phoneSuggestionsFlowPanel.Location = new Point(5, 407);
+            phoneSuggestionsFlowPanel.Name = "phoneSuggestionFlowPanel";
+            phoneSuggestionsFlowPanel.Size = new Size(290, 40);
+            phoneSuggestionsFlowPanel.TabIndex = 31;
+            phoneSuggestionsFlowPanel.Visible = false;
             // 
             // clockTimerPanel
             // 
@@ -385,6 +396,10 @@
             phoneNumberTextbox.Name = "phoneNumberTextbox";
             phoneNumberTextbox.Size = new Size(270, 19);
             phoneNumberTextbox.TabIndex = 15;
+            phoneNumberTextbox.TextChanged += PhoneNumberTextbox_TextChanged;
+            phoneNumberTextbox.KeyPress += PhoneNumberTextbox_KeyPress;
+            phoneNumberTextbox.Leave += PhoneNumberTextbox_Leave;
+            phoneNumberTextbox.GotFocus += PhoneNumberTextbox_OnFocus;
             // 
             // phoneNumberLabel
             // 
@@ -472,8 +487,8 @@
             deliveryFeeTextbox.Size = new Size(80, 19);
             deliveryFeeTextbox.TabIndex = 19;
             deliveryFeeTextbox.TextAlign = HorizontalAlignment.Right;
-            deliveryFeeTextbox.TextChanged += DeliveryChargeTextbox_TextChanged;
-            deliveryFeeTextbox.KeyPress += DeliveryChargeTextbox_KeyPress;
+            deliveryFeeTextbox.TextChanged += DeliveryFeeTextbox_TextChanged;
+            deliveryFeeTextbox.KeyPress += DeliveryFeeTextbox_KeyPress;
             // 
             // deliveryFeePlaceholderLabel
             // 
@@ -672,6 +687,7 @@
             customersButton.TabIndex = 2;
             customersButton.Text = "Customers";
             customersButton.UseVisualStyleBackColor = true;
+            customersButton.Click += ShowCustomersForm;
             // 
             // clockTimer
             // 
@@ -777,5 +793,6 @@
         private Panel clockTimerPanel;
         private Label clockTimerLabel;
         private System.Windows.Forms.Timer clockTimer;
+        private FlowLayoutPanel phoneSuggestionsFlowPanel;
     }
 }

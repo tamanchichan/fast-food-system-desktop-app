@@ -2,10 +2,10 @@ using fast_food_system_desktop_app.Data;
 using fast_food_system_desktop_app.Model;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Windows.Forms;
-using System.Reflection;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Globalization;
+using System.Reflection;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace fast_food_system_desktop_app
 {
@@ -81,6 +81,8 @@ namespace fast_food_system_desktop_app
         {
             DataAccess.SaveProducts();
             DataAccess.SaveCategories();
+            DataAccess.SaveCustomers();
+            DataAccess.SaveOrders();
             DataAccess.SaveCarts();
         }
 
@@ -336,6 +338,10 @@ namespace fast_food_system_desktop_app
                 }
             }
 
+            observationTextbox.Text = "";
+            nameTextbox.Text = "";
+            phoneNumberTextbox.Text = "";
+            addressTextbox.Text = "";
             deliveryFeeTextbox.Text = 0m.ToString("C", new CultureInfo("en-CA"));
 
             DisplayCartDetails();
@@ -405,6 +411,37 @@ namespace fast_food_system_desktop_app
                     radioButton.Checked = false;
                 }
 
+                string phoneNumber = phoneNumberTextbox.Text;
+
+                string digits = new string(phoneNumber.Where(char.IsDigit).ToArray());
+
+                if (!string.IsNullOrEmpty(digits) && digits.Length < 10)
+                {
+                    throw new ValidationException("Phone Number is invalid. Follow the format: '123-456-7890'");
+                }
+
+                Customer customer = DataAccess.Customers.FirstOrDefault(c => c.PhoneNumber == phoneNumber);
+
+                if (customer == null && phoneNumber != "")
+                {
+                    customer = new Customer()
+                    {
+                        //    Id = Guid.NewGuid();
+                        //    Name = name;
+                        //    PhoneNumber = phoneNumber;
+                        //    Address = address;
+                        //    Observations = observations;
+                        //    Orders = orders;
+
+                        Id = Guid.NewGuid(),
+                        Name = nameTextbox.Text,
+                        PhoneNumber = phoneNumberTextbox.Text,
+                        Address = addressTextbox.Text
+                    };
+
+                    DataAccess.Customers.Add(customer);
+                }
+
                 Order order = new Order()
                 {
                     //Id = Guid.NewGuid();
@@ -422,16 +459,20 @@ namespace fast_food_system_desktop_app
                     //Total = total;
 
                     CartId = cart.Id,
-                    // CustomerId = 
                     PhoneNumber = phoneNumberTextbox.Text,
                     Type = selectedOrderType,
-                    // Observation =
+                    Observation = observationTextbox.Text,
                     DeliveryFee = deliveryFee,
                     SubTotal = subTotal,
                     Pst = pst,
                     Gst = gst,
                     Total = total
                 };
+
+                if (customer != null)
+                {
+                    order.CustomerId = customer.Id;
+                }
 
                 DataAccess.Carts.Add(cart); // Save the current cart
                 DataAccess.Cart = new Cart(); // Create a new cart for the next order
@@ -529,12 +570,18 @@ namespace fast_food_system_desktop_app
             OrdersLoad();
         }
 
-        private void DeliveryChargeTextbox_TextChanged(object sender, EventArgs e)
+        private void ShowCustomersForm(object sender, EventArgs e)
+        {
+            CustomersForm customersForm = new CustomersForm();
+            customersForm.ShowDialog();
+        }
+
+        private void DeliveryFeeTextbox_TextChanged(object sender, EventArgs e)
         {
             DisplayCartDetails();
         }
 
-        private void DeliveryChargeTextbox_KeyPress(object sender, KeyPressEventArgs e)
+        private void DeliveryFeeTextbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsControl(e.KeyChar))
             {
@@ -552,6 +599,130 @@ namespace fast_food_system_desktop_app
             }
 
             e.Handled = true;
+        }
+
+        private void PhoneNumberTextbox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            if (char.IsDigit(e.KeyChar))
+            {
+                return;
+            }
+
+            if (e.KeyChar == '+' && textBox.SelectionStart == 0 && !(textBox.Text.Contains("+")))
+            {
+                return;
+            }
+
+            if (e.KeyChar == '-' && (textBox.Text.Count(c => c == '-') < 2))
+            {
+                return;
+            }
+
+            e.Handled = true;
+        }
+
+        private void PhoneNumberTextbox_TextChanged(object sender, EventArgs e)
+        {
+            #region format phoneNumber textbox (xxx-xxx-xxxx)
+            TextBox textBox = (TextBox)sender;
+
+            string digits = new string(textBox.Text.Where(char.IsDigit).ToArray());
+
+            if (digits.Length > 0)
+            {
+                if (digits.Length <= 3)
+                {
+                    textBox.Text = digits;
+                }
+                else if (digits.Length <= 6)
+                {
+                    textBox.Text = $"{digits.Substring(0, 3)}-{digits.Substring(3)}";
+                }
+                else if (digits.Length <= 10)
+                {
+                    textBox.Text = $"{digits.Substring(0, 3)}-{digits.Substring(3, 3)}-{digits.Substring(6)}";
+                }
+                else
+                {
+                    textBox.Text = $"{digits.Substring(0, 3)}-{digits.Substring(3, 3)}-{digits.Substring(6, 4)}";
+                }
+
+                textBox.SelectionStart = textBox.Text.Length;
+            }
+            #endregion
+
+            phoneSuggestionsFlowPanel.Controls.Clear();
+            phoneSuggestionsFlowPanel.BringToFront();
+
+            string input = phoneNumberTextbox.Text.Trim();
+
+            if (string.IsNullOrEmpty(input) || input.Length < 2)
+            {
+                phoneSuggestionsFlowPanel.Visible = false;
+                return;
+            }
+
+            int panelHeight = 0;
+
+            foreach (Customer customer in DataAccess.Customers)
+            {
+                if (customer.PhoneNumber.Contains(input))
+                {
+                    Label phoneSuggestionLabel = new Label();
+                    phoneSuggestionLabel.Text = customer.PhoneNumber;
+                    phoneSuggestionLabel.AutoSize = false;
+                    phoneSuggestionLabel.Width = phoneSuggestionsFlowPanel.Width;
+                    phoneSuggestionLabel.Height = 30;
+                    phoneSuggestionLabel.TextAlign = ContentAlignment.MiddleLeft;
+                    phoneSuggestionLabel.BackColor = Color.White;
+                    phoneSuggestionLabel.Cursor = Cursors.Hand;
+                    phoneSuggestionLabel.Margin = new Padding(0);
+
+                    phoneSuggestionLabel.MouseHover += (s, e) =>
+                    {
+                        phoneSuggestionLabel.BackColor = Color.Silver;
+                    };
+
+                    phoneSuggestionLabel.MouseLeave += (s, e) =>
+                    {
+                        phoneSuggestionLabel.BackColor = Color.White;
+                    };
+
+                    // Click event to fill textbox
+                    phoneSuggestionLabel.Click += (s, e) =>
+                    {
+                        nameTextbox.Text = customer.Name;
+                        phoneNumberTextbox.Text = customer.PhoneNumber;
+                        addressTextbox.Text = customer.Address;
+                        phoneSuggestionsFlowPanel.Visible = false;
+                    };
+
+                    phoneSuggestionsFlowPanel.Controls.Add(phoneSuggestionLabel);
+                    panelHeight += phoneSuggestionLabel.Height;
+                }
+            }
+
+            phoneSuggestionsFlowPanel.Height = panelHeight;
+            phoneSuggestionsFlowPanel.Visible = panelHeight > 0;
+        }
+
+        private void PhoneNumberTextbox_Leave(object sender, EventArgs e)
+        {
+            phoneSuggestionsFlowPanel.Visible = false;
+        }
+
+        private void PhoneNumberTextbox_OnFocus(object sender, EventArgs e)
+        {
+            if (phoneNumberTextbox.Text.Length >= 2)
+
+            phoneSuggestionsFlowPanel.Visible = true;
         }
 
         private void ClockTimer_Tick(object sender, EventArgs e)

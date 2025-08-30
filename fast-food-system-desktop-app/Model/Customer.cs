@@ -10,9 +10,10 @@ namespace fast_food_system_desktop_app.Model
     {
         public Guid Id { get; set; }
 
-        public string? FirstName { get; set; }
+        public string? Name { get; set; }
+        //public string? FirstName { get; set; }
 
-        public string? LastName { get; set; }
+        //public string? LastName { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -24,11 +25,21 @@ namespace fast_food_system_desktop_app.Model
 
         public Customer() { }
 
-        public Customer(string? firstName, string? lastName, string phoneNumber, string? address, List<string>? observations, HashSet<Order>? orders)
+        //public Customer(string? firstName, string? lastName, string phoneNumber, string? address, List<string>? observations, HashSet<Order>? orders)
+        //{
+        //    Id = Guid.NewGuid();
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    PhoneNumber = phoneNumber;
+        //    Address = address;
+        //    Observations = observations;
+        //    Orders = orders;
+        //}
+
+        public Customer(string? name, string phoneNumber, string? address, List<string>? observations, HashSet<Order>? orders)
         {
             Id = Guid.NewGuid();
-            FirstName = firstName;
-            LastName = lastName;
+            Name = name;
             PhoneNumber = phoneNumber;
             Address = address;
             Observations = observations;

@@ -81,6 +81,39 @@ namespace fast_food_system_desktop_app.Data
             File.WriteAllText(CategoriesFilePath, JsonSerializer.Serialize(Categories, options));
         }
 
+        public static readonly string CustomersFilePath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName, "Data", "customers.json");
+
+        public static HashSet<Customer> Customers = LoadCustomers();
+
+        public static HashSet<Customer> LoadCustomers()
+        {
+            if (!File.Exists(CustomersFilePath))
+            {
+                HashSet<Customer> defaultCustomers = DefaultCustomers.customers;
+                return defaultCustomers;
+            }
+
+            string json = File.ReadAllText(CustomersFilePath);
+
+            HashSet<Customer> customers = JsonSerializer.Deserialize<HashSet<Customer>>(json, new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            });
+
+            return customers;
+        }
+
+        public static void SaveCustomers()
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(CustomersFilePath));
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+            File.WriteAllText(CustomersFilePath, JsonSerializer.Serialize(Customers, options));
+        }
+
         public static readonly string CartsFilePath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName, "Data", "carts.json");
 
         public static HashSet<Cart> Carts = LoadCarts();
@@ -89,7 +122,7 @@ namespace fast_food_system_desktop_app.Data
         {
             if (!File.Exists(CartsFilePath))
             {
-                HashSet<Cart> defaultCarts = DefaultCart.carts;
+                HashSet<Cart> defaultCarts = DefaultCarts.carts;
                 return defaultCarts;
             }
 
@@ -127,7 +160,7 @@ namespace fast_food_system_desktop_app.Data
             }
 
             Cart lastCart = Carts.Last();
-            DefaultCart.cart = lastCart;
+            DefaultCarts.cart = lastCart;
 
             return lastCart;
         }

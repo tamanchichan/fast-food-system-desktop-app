@@ -1,0 +1,99 @@
+{
+  "$id": "1",
+  "$values": [
+    {
+      "$id": "2",
+      "Id": "f6428832-a23f-4373-955c-ae9ed25921c0",
+      "Name": "Taman",
+      "PhoneNumber": "204-698-4841",
+      "Address": "480 Lindsay",
+      "Observations": null,
+      "Orders": null
+    },
+    {
+      "$id": "3",
+      "Id": "499ceea3-241d-4707-82ae-9d32076a75b1",
+      "Name": "John Doe",
+      "PhoneNumber": "123-456-7890",
+      "Address": "123 Main St, Cityville",
+      "Observations": {
+        "$id": "4",
+        "$values": [
+          "Allergic to peanuts"
+        ]
+      },
+      "Orders": null
+    },
+    {
+      "$id": "5",
+      "Id": "3c954ddd-a45f-4986-8f9d-be8c898a3190",
+      "Name": "Jane Smith",
+      "PhoneNumber": "987-654-3210",
+      "Address": "456 Oak St, Townsville",
+      "Observations": {
+        "$id": "6",
+        "$values": [
+          "Prefers spicy food"
+        ]
+      },
+      "Orders": null
+    },
+    {
+      "$id": "7",
+      "Id": "de1c9f27-38f9-4b84-ab98-fe493ac975bc",
+      "Name": "Alice Johnson",
+      "PhoneNumber": "555-123-4567",
+      "Address": "789 Pine St, Villageville",
+      "Observations": {
+        "$id": "8",
+        "$values": [
+          "Vegetarian"
+        ]
+      },
+      "Orders": null
+    },
+    {
+      "$id": "9",
+      "Id": "e8640394-b881-405f-a8b8-76f8ccde9689",
+      "Name": "Bob Brown",
+      "PhoneNumber": "444-987-6543",
+      "Address": "321 Maple St, Hamletville",
+      "Observations": {
+        "$id": "10",
+        "$values": [
+          "Gluten-free"
+        ]
+      },
+      "Orders": null
+    },
+    {
+      "$id": "11",
+      "Id": "6dd838e2-104c-4a81-bd92-38c16c319728",
+      "Name": "Charlie Davis",
+      "PhoneNumber": "333-555-7777",
+      "Address": "654 Cedar St, Boroughville",
+      "Observations": {
+        "$id": "12",
+        "$values": [
+          "Lactose intolerant"
+        ]
+      },
+      "Orders": null
+    },
+    {
+      "$id": "13",
+      "Id": "0b592057-0f40-4d9b-802e-b8a613c89db2",
+      "Name": "David",
+      "PhoneNumber": "111-111-1111",
+      "Address": "",
+      "Observations": {
+        "$id": "14",
+        "$values": []
+      },
+      "Orders": {
+        "$id": "15",
+        "$values": []
+      }
+    }
+  ]
+}
