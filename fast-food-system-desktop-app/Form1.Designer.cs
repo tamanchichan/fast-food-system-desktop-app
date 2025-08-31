@@ -41,7 +41,6 @@
             clearCartButton = new Button();
             formPanel = new Panel();
             cartDetailsPanel = new Panel();
-            phoneSuggestionsFlowPanel = new FlowLayoutPanel();
             clockTimerPanel = new Panel();
             clockTimerLabel = new Label();
             observationPlaceholderPanel = new Panel();
@@ -78,6 +77,7 @@
             subTotalPriceLabel = new Label();
             placeOrderButton = new Button();
             radiosPanel = new Panel();
+            phoneSuggestionsFlowPanel = new FlowLayoutPanel();
             buttonsPanel = new Panel();
             customersButton = new Button();
             clockTimer = new System.Windows.Forms.Timer(components);
@@ -109,7 +109,7 @@
             homeFlowLayoutPanel.Location = new Point(152, 0);
             homeFlowLayoutPanel.Name = "homeFlowLayoutPanel";
             homeFlowLayoutPanel.Size = new Size(570, 768);
-            homeFlowLayoutPanel.TabIndex = 1;
+            homeFlowLayoutPanel.TabIndex = 0;
             // 
             // cartFlowLayoutPanel
             // 
@@ -194,7 +194,7 @@
             // ordersButton
             // 
             ordersButton.Font = new Font("Microsoft Sans Serif", 10F);
-            ordersButton.Location = new Point(0, 300);
+            ordersButton.Location = new Point(-4, 299);
             ordersButton.Name = "ordersButton";
             ordersButton.Size = new Size(150, 100);
             ordersButton.TabIndex = 4;
@@ -249,15 +249,6 @@
             cartDetailsPanel.Name = "cartDetailsPanel";
             cartDetailsPanel.Size = new Size(300, 768);
             cartDetailsPanel.TabIndex = 2;
-            // 
-            // phoneSuggestionFlowPanel
-            // 
-            phoneSuggestionsFlowPanel.BorderStyle = BorderStyle.FixedSingle;
-            phoneSuggestionsFlowPanel.Location = new Point(5, 407);
-            phoneSuggestionsFlowPanel.Name = "phoneSuggestionFlowPanel";
-            phoneSuggestionsFlowPanel.Size = new Size(290, 40);
-            phoneSuggestionsFlowPanel.TabIndex = 31;
-            phoneSuggestionsFlowPanel.Visible = false;
             // 
             // clockTimerPanel
             // 
@@ -397,9 +388,9 @@
             phoneNumberTextbox.Size = new Size(270, 19);
             phoneNumberTextbox.TabIndex = 15;
             phoneNumberTextbox.TextChanged += PhoneNumberTextbox_TextChanged;
+            phoneNumberTextbox.GotFocus += PhoneNumberTextbox_OnFocus;
             phoneNumberTextbox.KeyPress += PhoneNumberTextbox_KeyPress;
             phoneNumberTextbox.Leave += PhoneNumberTextbox_Leave;
-            phoneNumberTextbox.GotFocus += PhoneNumberTextbox_OnFocus;
             // 
             // phoneNumberLabel
             // 
@@ -465,7 +456,7 @@
             deliveryFeePlaceholderPanel.Location = new Point(0, 487);
             deliveryFeePlaceholderPanel.Name = "deliveryFeePlaceholderPanel";
             deliveryFeePlaceholderPanel.Size = new Size(300, 60);
-            deliveryFeePlaceholderPanel.TabIndex = 29;
+            deliveryFeePlaceholderPanel.TabIndex = 18;
             // 
             // deliveryFeeTextboxPanel
             // 
@@ -488,7 +479,9 @@
             deliveryFeeTextbox.TabIndex = 19;
             deliveryFeeTextbox.TextAlign = HorizontalAlignment.Right;
             deliveryFeeTextbox.TextChanged += DeliveryFeeTextbox_TextChanged;
+            deliveryFeeTextbox.GotFocus += DeliveryFeeTextbox_OnFocus;
             deliveryFeeTextbox.KeyPress += DeliveryFeeTextbox_KeyPress;
+            deliveryFeeTextbox.Leave += DeliveryFeeTextbox_OnLeave;
             // 
             // deliveryFeePlaceholderLabel
             // 
@@ -511,7 +504,7 @@
             totalPricePlaceholderPanel.Location = new Point(0, 658);
             totalPricePlaceholderPanel.Name = "totalPricePlaceholderPanel";
             totalPricePlaceholderPanel.Size = new Size(300, 30);
-            totalPricePlaceholderPanel.TabIndex = 28;
+            totalPricePlaceholderPanel.TabIndex = 23;
             // 
             // totalPricePlaceholderLabel
             // 
@@ -545,7 +538,7 @@
             gstPricePlaceholderPanel.Location = new Point(0, 623);
             gstPricePlaceholderPanel.Name = "gstPricePlaceholderPanel";
             gstPricePlaceholderPanel.Size = new Size(300, 30);
-            gstPricePlaceholderPanel.TabIndex = 28;
+            gstPricePlaceholderPanel.TabIndex = 22;
             // 
             // gstPricePlaceholderLabel
             // 
@@ -579,7 +572,7 @@
             pstPricePlaceholderPanel.Location = new Point(0, 587);
             pstPricePlaceholderPanel.Name = "pstPricePlaceholderPanel";
             pstPricePlaceholderPanel.Size = new Size(300, 30);
-            pstPricePlaceholderPanel.TabIndex = 27;
+            pstPricePlaceholderPanel.TabIndex = 21;
             // 
             // pstPricePlaceholderLabel
             // 
@@ -613,7 +606,7 @@
             subTotalPricePlaceholderPanel.Location = new Point(0, 551);
             subTotalPricePlaceholderPanel.Name = "subTotalPricePlaceholderPanel";
             subTotalPricePlaceholderPanel.Size = new Size(300, 30);
-            subTotalPricePlaceholderPanel.TabIndex = 26;
+            subTotalPricePlaceholderPanel.TabIndex = 20;
             // 
             // subTotalPricePlaceholderLabel
             // 
@@ -647,7 +640,7 @@
             placeOrderButton.Location = new Point(0, 693);
             placeOrderButton.Name = "placeOrderButton";
             placeOrderButton.Size = new Size(300, 75);
-            placeOrderButton.TabIndex = 0;
+            placeOrderButton.TabIndex = 24;
             placeOrderButton.Text = "Place Order";
             placeOrderButton.UseVisualStyleBackColor = true;
             placeOrderButton.Click += PlaceOrder;
@@ -663,6 +656,15 @@
             radiosPanel.Name = "radiosPanel";
             radiosPanel.Size = new Size(300, 33);
             radiosPanel.TabIndex = 6;
+            // 
+            // phoneSuggestionsFlowPanel
+            // 
+            phoneSuggestionsFlowPanel.BorderStyle = BorderStyle.FixedSingle;
+            phoneSuggestionsFlowPanel.Location = new Point(5, 407);
+            phoneSuggestionsFlowPanel.Name = "phoneSuggestionsFlowPanel";
+            phoneSuggestionsFlowPanel.Size = new Size(290, 40);
+            phoneSuggestionsFlowPanel.TabIndex = 31;
+            phoneSuggestionsFlowPanel.Visible = false;
             // 
             // buttonsPanel
             // 

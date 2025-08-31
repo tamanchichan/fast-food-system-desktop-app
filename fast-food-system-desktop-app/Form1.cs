@@ -581,6 +581,34 @@ namespace fast_food_system_desktop_app
             DisplayCartDetails();
         }
 
+        // convert from "$0.00" to "0.00"
+        private void DeliveryFeeTextbox_OnFocus(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+
+            if (decimal.TryParse(textBox.Text, NumberStyles.Currency, new CultureInfo("en-CA"), out decimal value))
+            {
+                textBox.Text = value.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                textBox.Text = "0.00"; // default if parsing fails
+            }
+
+            textBox.SelectionStart = textBox.Text.Length; // place cursor at the end
+        }
+
+        // convert from "0.00" to "$0.00"
+        private void DeliveryFeeTextbox_OnLeave(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+
+            if (decimal.TryParse(textBox.Text, NumberStyles.Currency, new CultureInfo("en-CA"), out decimal value))
+            {
+                textBox.Text = value.ToString("C", new CultureInfo("en-CA"));
+            }
+        }
+
         private void DeliveryFeeTextbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsControl(e.KeyChar))
