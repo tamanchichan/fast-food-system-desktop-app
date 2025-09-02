@@ -143,7 +143,7 @@ namespace fast_food_system_desktop_app
 
                 panel.Click += (sender, e) =>
                 {
-                    if (product.HasFoodOptions == true)
+                    if (product.HasOptions == true)
                     {
                         FlowLayoutPanel flowPanel = new FlowLayoutPanel();
                         formPanel.Controls.Add(flowPanel);
@@ -193,7 +193,7 @@ namespace fast_food_system_desktop_app
                 {
                     child.Click += (sender, e) =>
                     {
-                        if (product.HasFoodOptions == true)
+                        if (product.HasOptions == true)
                         {
                             FlowLayoutPanel flowPanel = new FlowLayoutPanel();
                             formPanel.Controls.Add(flowPanel);

@@ -62,17 +62,17 @@ namespace fast_food_system_desktop_app.Model
         [Range(0, double.MaxValue, ErrorMessage = "\"Price\" can not be less than zero")]
         public decimal Price { get; set; }
 
-        public bool HasFoodOptions { get; set; }
+        public bool HasOptions { get; set; }
 
         public Product() { }
 
-        public Product(string code, string name, decimal price, bool hasFoodOptions = false)
+        public Product(string code, string name, decimal price, bool hasOptions = false)
         {
             Id = Guid.NewGuid();
             Code = code;
             Name = name;
             Price = price;
-            HasFoodOptions = hasFoodOptions;
+            HasOptions = hasOptions;
         }
 
         public Product(string code, HashSet<CartProduct>? cartProducts, HashSet<ProductCategory>? productCategories, string name, string? description, decimal price, bool hasFoodOptions)
@@ -84,7 +84,7 @@ namespace fast_food_system_desktop_app.Model
             Name = name;
             Description = description;
             Price = price;
-            HasFoodOptions = hasFoodOptions;
+            HasOptions = hasFoodOptions;
         }
     }
 }
