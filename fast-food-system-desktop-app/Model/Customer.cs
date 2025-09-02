@@ -25,17 +25,6 @@ namespace fast_food_system_desktop_app.Model
 
         public Customer() { }
 
-        //public Customer(string? firstName, string? lastName, string phoneNumber, string? address, List<string>? observations, HashSet<Order>? orders)
-        //{
-        //    Id = Guid.NewGuid();
-        //    FirstName = firstName;
-        //    LastName = lastName;
-        //    PhoneNumber = phoneNumber;
-        //    Address = address;
-        //    Observations = observations;
-        //    Orders = orders;
-        //}
-
         public Customer(string? name, string phoneNumber, string? address, List<string>? observations, HashSet<Order>? orders)
         {
             Id = Guid.NewGuid();

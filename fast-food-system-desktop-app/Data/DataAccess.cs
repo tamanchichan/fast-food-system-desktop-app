@@ -19,7 +19,7 @@ namespace fast_food_system_desktop_app.Data
         {
             if (!File.Exists(ProductsFilePath))
             {
-                HashSet<Product> defaultProducts = DefaultProducts.appetizerProducts;
+                HashSet<Product> defaultProducts = DefaultProducts.products;
                 return defaultProducts;
             }
 

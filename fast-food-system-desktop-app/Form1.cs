@@ -51,6 +51,7 @@ namespace fast_food_system_desktop_app
             homeFlowLayoutPanel.Controls.Clear();
 
             DefaultProductsCategories.LinkProductsToCategory(DefaultProducts.appetizerProducts, DefaultCategories.appetizer);
+            DefaultProductsCategories.LinkProductsToCategory(DefaultProducts.mixedGreensProducts, DefaultCategories.mixedGreens);
 
             CreateHomeItems(DataAccess.Products);
 
@@ -101,9 +102,10 @@ namespace fast_food_system_desktop_app
                 panel.Cursor = Cursors.Hand;
 
                 Label productName = new Label();
+                productName.AutoEllipsis = true;
                 productName.Text = product.Name;
                 productName.Location = new Point(5, 5);
-                productName.AutoSize = true;
+                productName.Width = panel.Width - 10;
                 productName.Cursor = Cursors.Hand;
 
                 Label productPrice = new Label();
@@ -126,7 +128,7 @@ namespace fast_food_system_desktop_app
                 CartProduct cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == product.Id);
 
                 Label productQuantity = new Label();
-                productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
+                productQuantity.Text = cart.CartProducts.Where(cp => cp.ProductId == product.Id).Sum(cp => cp.Quantity).ToString();
                 productQuantity.AutoSize = true;
                 productQuantity.BorderStyle = BorderStyle.FixedSingle;
                 productQuantity.Location = new Point(
@@ -141,26 +143,100 @@ namespace fast_food_system_desktop_app
 
                 panel.Click += (sender, e) =>
                 {
-                    AddItemToCart(product);
+                    if (product.HasFoodOptions == true)
+                    {
+                        FlowLayoutPanel flowPanel = new FlowLayoutPanel();
+                        formPanel.Controls.Add(flowPanel);
 
-                    CartProduct cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == product.Id);
+                        flowPanel.BringToFront();
+                        flowPanel.Location = new Point(panel.Right, panel.Bottom);
+                        flowPanel.AutoSize = false;
+                        flowPanel.Width = 150;
+                        flowPanel.Height = 0;
 
-                    productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
+                        int panelHeight = 0;
 
-                    DisplayCartDetails();
+                        foreach (Product.FoodOption foodOption in Enum.GetValues(typeof(Product.FoodOption)))
+                        {
+                            Label label = new Label();
+                            label.AutoSize = false;
+                            label.Text = foodOption.ToString();
+                            label.Width = flowPanel.Width;
+                            label.Height = 30;
+                            label.Cursor = Cursors.Hand;
+
+                            label.Click += (s, e) =>
+                            {
+                                formPanel.Controls.Remove(flowPanel);
+                                AddItemToCart(product, foodOption);
+                                productQuantity.Text = cart.CartProducts.Where(cp => cp.ProductId == product.Id).Sum(cp => cp.Quantity).ToString();
+                                DisplayCartDetails();
+                            };
+
+                            flowPanel.Controls.Add(label);
+
+                            panelHeight += label.Height;
+                        }
+
+                        flowPanel.Height = panelHeight;
+
+                    }
+                    else
+                    {
+                        AddItemToCart(product);
+                        productQuantity.Text = cart.CartProducts.Where(cp => cp.ProductId == product.Id).Sum(cp => cp.Quantity).ToString();
+                        DisplayCartDetails();
+                    }
                 };
 
                 foreach (Control child in panel.Controls)
                 {
                     child.Click += (sender, e) =>
                     {
-                        AddItemToCart(product);
+                        if (product.HasFoodOptions == true)
+                        {
+                            FlowLayoutPanel flowPanel = new FlowLayoutPanel();
+                            formPanel.Controls.Add(flowPanel);
 
-                        CartProduct cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == product.Id);
+                            flowPanel.BringToFront();
+                            flowPanel.Location = new Point(panel.Right, panel.Bottom);
+                            flowPanel.AutoSize = false;
+                            flowPanel.Width = 150;
+                            flowPanel.Height = 0;
 
-                        productQuantity.Text = (cartProduct?.Quantity ?? 0).ToString();
+                            int panelHeight = 0;
 
-                        DisplayCartDetails();
+                            foreach (Product.FoodOption foodOption in Enum.GetValues(typeof(Product.FoodOption)))
+                            {
+                                Label label = new Label();
+                                label.AutoSize = false;
+                                label.Text = foodOption.ToString();
+                                label.Width = flowPanel.Width;
+                                label.Height = 30;
+                                label.Cursor = Cursors.Hand;
+
+                                label.Click += (s, e) =>
+                                {
+                                    formPanel.Controls.Remove(flowPanel);
+                                    AddItemToCart(product, foodOption);
+                                    productQuantity.Text = cart.CartProducts.Where(cp => cp.ProductId == product.Id).Sum(cp => cp.Quantity).ToString();
+                                    DisplayCartDetails();
+                                };
+
+                                flowPanel.Controls.Add(label);
+
+                                panelHeight += label.Height;
+                            }
+
+                            flowPanel.Height = panelHeight;
+                        }
+                        else
+                        {
+                            AddItemToCart(product);
+                            productQuantity.Text = cart.CartProducts.Where(cp => cp.ProductId == product.Id).Sum(cp => cp.Quantity).ToString();
+
+                            DisplayCartDetails();
+                        }
                     };
                 }
 
@@ -168,11 +244,10 @@ namespace fast_food_system_desktop_app
             }
         }
 
-        private void AddItemToCart(Product product)
+        private void AddItemToCart(Product product, Product.FoodOption? foodOption = null)
         {
             Cart cart = DataAccess.Cart;
 
-            // If cart is null, create a new one
             if (cart == null)
             {
                 cart = new Cart();
@@ -182,18 +257,18 @@ namespace fast_food_system_desktop_app
             cart.CartProducts ??= new HashSet<CartProduct>();
             product.CartProducts ??= new HashSet<CartProduct>();
 
-            CartProduct cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == product.Id);
+            CartProduct cartProduct = cart.CartProducts.FirstOrDefault(cp => cp.ProductId == product.Id && cp.SelectedFoodOption == foodOption);
 
             if (cartProduct == null)
             {
-                //cartProduct = new CartProduct(cart.Id, cart, product.Id, product, product.Price, 1, null);
-
                 cartProduct = new CartProduct()
                 {
                     CartId = cart.Id,
                     //Cart = cart,
                     ProductId = product.Id,
                     //Product = product,
+                    Code = $"{product.Code}{foodOption?.ToString().Substring(0,1)}",
+                    SelectedFoodOption = foodOption,
                     Price = product.Price,
                     Quantity = 1,
                     Observation = null,
@@ -213,21 +288,19 @@ namespace fast_food_system_desktop_app
             Panel placeholderPanel = new Panel();
             placeholderPanel.BorderStyle = BorderStyle.Fixed3D;
             placeholderPanel.Size = new Size(cartFlowLayoutPanel.Width, 50);
+            placeholderPanel.Margin = new Padding(10);
 
             Label placeholderCode = new Label();
             placeholderCode.BorderStyle = BorderStyle.FixedSingle;
-            //placeholderCode.Size = new Size(100, placeholderPanel.Height);
             placeholderCode.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.10), placeholderPanel.Height);
             placeholderCode.Text = "Code";
             placeholderCode.TextAlign = ContentAlignment.MiddleCenter;
 
             Label placeholderName = new Label();
             placeholderName.BorderStyle = BorderStyle.FixedSingle;
-            //placeholderName.Size = new Size(300, placeholderPanel.Height);
             placeholderName.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.50), placeholderPanel.Height);
             placeholderName.Text = "Name";
             placeholderName.TextAlign = ContentAlignment.MiddleCenter;
-            //placeholderName.Location = new Point(100, 0);
             placeholderName.Location = new Point(placeholderCode.Width, 0);
 
             Label placeholderPrice = new Label();
@@ -270,45 +343,34 @@ namespace fast_food_system_desktop_app
                 panel.Size = new Size(cartFlowLayoutPanel.Width, 50);
 
                 Label cpCode = new Label();
-                //cpCode.AutoSize = true;
                 cpCode.Size = new Size(placeholderCode.Width, panel.Height);
-                //cpCode.Text = cartProduct.Product.Code;
-                cpCode.Text = product.Code;
+                cpCode.Text = cartProduct.Code;
                 cpCode.TextAlign = ContentAlignment.MiddleCenter;
-                //cpCode.Location = new Point(5, (panel.Height - cpCode.PreferredHeight) / 2);
 
                 Label cpName = new Label();
-                //cpName.AutoSize = true;
                 cpName.Size = new Size(placeholderName.Width, panel.Height);
-                //cpName.Text = cartProduct.Product.Name;
-                cpName.Text = product.Name;
+                cpName.Text = $"{product.Name} {cartProduct.SelectedFoodOption?.ToString()}";
                 cpName.TextAlign = ContentAlignment.MiddleCenter;
-                //cpName.Location = new Point((cpCode.PreferredWidth + 10), (panel.Height - cpName.PreferredHeight) / 2);
                 cpName.Location = new Point(cpCode.Width, 0);
 
 
                 Label cpPrice = new Label();
-                //cpPrice.AutoSize = true;
                 cpPrice.Size = new Size(placeholderPrice.Width, panel.Height);
                 cpPrice.Text = cartProduct.Price.ToString("C", new CultureInfo("en-CA"));
                 cpPrice.TextAlign = ContentAlignment.MiddleCenter;
-                //cpPrice.Location = new Point((cpCode.PreferredWidth + cpName.PreferredWidth + 10), (panel.Height - cpPrice.PreferredHeight) / 2);
                 cpPrice.Location = new Point(cpCode.Width + cpName.Width, 0);
 
                 Label cpQuantity = new Label();
-                //cpQuantity.AutoSize = true;
                 cpQuantity.Size = new Size(placeholderQuantity.Width, panel.Height);
                 cpQuantity.Text = cartProduct.Quantity.ToString();
                 cpQuantity.TextAlign = ContentAlignment.MiddleCenter;
-                //cpQuantity.Location = new Point((cpCode.PreferredWidth + cpName.PreferredWidth + cpPrice.PreferredWidth + 10), (panel.Height - cpQuantity.PreferredHeight) / 2);
+
                 cpQuantity.Location = new Point(cpCode.Width + cpName.Width + cpPrice.Width, 0);
 
                 Label cpTotalPrice = new Label();
-                //cpTotalPrice.AutoSize = true;
                 cpTotalPrice.Size = new Size (placeholderTotalPrice.Width, panel.Height);
                 cpTotalPrice.Text = (cartProduct.Quantity * cartProduct.Price).ToString("C", new CultureInfo("en-CA"));
                 cpTotalPrice.TextAlign = ContentAlignment.MiddleCenter;
-                //cpTotalPrice.Location = new Point((cpCode.PreferredWidth + cpName.PreferredWidth + cpPrice.PreferredWidth + cpQuantity.PreferredWidth + 10), (panel.Height - cpTotalPrice.PreferredHeight) / 2);
                 cpTotalPrice.Location = new Point(cpCode.Width + cpName.Width + cpPrice.Width + cpQuantity.Width, 0);
 
                 panel.Controls.Add(cpCode);

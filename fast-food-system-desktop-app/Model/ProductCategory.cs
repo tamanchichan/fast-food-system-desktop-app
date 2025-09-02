@@ -20,15 +20,6 @@ namespace fast_food_system_desktop_app.Model
 
         public ProductCategory() { }
 
-        //public ProductCategory(Guid productId, Product product, Guid categoryId, Category category)
-        //{
-        //    Id = Guid.NewGuid();
-        //    ProductId = productId;
-        //    Product = product;
-        //    CategoryId = categoryId;
-        //    Category = category;
-        //}
-
         public ProductCategory(Guid productId, Guid categoryId)
         {
             Id = Guid.NewGuid();

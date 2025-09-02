@@ -15,9 +15,12 @@ namespace fast_food_system_desktop_app.Data
 
         public static Category appetizer = new Category("Appetizer", null);
 
+        public static Category mixedGreens = new Category("Mixed Greens", null);
+
         public static HashSet<Category> categories = new HashSet<Category>()
         {
-            appetizer
+            appetizer,
+            mixedGreens
         };
     }
 }

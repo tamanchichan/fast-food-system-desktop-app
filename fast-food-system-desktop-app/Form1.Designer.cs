@@ -106,22 +106,23 @@
             // 
             homeFlowLayoutPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             homeFlowLayoutPanel.Font = new Font("Microsoft Sans Serif", 10F);
-            homeFlowLayoutPanel.Location = new Point(152, 0);
+            homeFlowLayoutPanel.Location = new Point(150, 0);
             homeFlowLayoutPanel.Name = "homeFlowLayoutPanel";
-            homeFlowLayoutPanel.Size = new Size(570, 768);
+            homeFlowLayoutPanel.Size = new Size(573, 768);
             homeFlowLayoutPanel.TabIndex = 0;
             // 
             // cartFlowLayoutPanel
             // 
             cartFlowLayoutPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             cartFlowLayoutPanel.Font = new Font("Microsoft Sans Serif", 10F);
-            cartFlowLayoutPanel.Location = new Point(152, 0);
+            cartFlowLayoutPanel.Location = new Point(150, 0);
             cartFlowLayoutPanel.Name = "cartFlowLayoutPanel";
-            cartFlowLayoutPanel.Size = new Size(570, 768);
+            cartFlowLayoutPanel.Size = new Size(573, 768);
             cartFlowLayoutPanel.TabIndex = 1;
             // 
             // cartButton
             // 
+            cartButton.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cartButton.Font = new Font("Microsoft Sans Serif", 10F);
             cartButton.Location = new Point(0, 200);
             cartButton.Name = "cartButton";
@@ -193,8 +194,9 @@
             // 
             // ordersButton
             // 
+            ordersButton.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             ordersButton.Font = new Font("Microsoft Sans Serif", 10F);
-            ordersButton.Location = new Point(-4, 299);
+            ordersButton.Location = new Point(0, 300);
             ordersButton.Name = "ordersButton";
             ordersButton.Size = new Size(150, 100);
             ordersButton.TabIndex = 4;
@@ -220,8 +222,8 @@
             formPanel.Controls.Add(cartDetailsPanel);
             formPanel.Controls.Add(buttonsPanel);
             formPanel.Controls.Add(homeFlowLayoutPanel);
-            formPanel.Controls.Add(ordersFlowLayoutPanel);
             formPanel.Controls.Add(cartFlowLayoutPanel);
+            formPanel.Controls.Add(ordersFlowLayoutPanel);
             formPanel.Font = new Font("Microsoft Sans Serif", 10F);
             formPanel.Location = new Point(0, 0);
             formPanel.Name = "formPanel";
@@ -253,7 +255,6 @@
             // clockTimerPanel
             // 
             clockTimerPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            clockTimerPanel.BorderStyle = BorderStyle.FixedSingle;
             clockTimerPanel.Controls.Add(clockTimerLabel);
             clockTimerPanel.Location = new Point(0, 39);
             clockTimerPanel.Name = "clockTimerPanel";
@@ -264,9 +265,9 @@
             // 
             clockTimerLabel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             clockTimerLabel.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            clockTimerLabel.Location = new Point(70, 18);
+            clockTimerLabel.Location = new Point(71, 18);
             clockTimerLabel.Name = "clockTimerLabel";
-            clockTimerLabel.Size = new Size(160, 40);
+            clockTimerLabel.Size = new Size(160, 42);
             clockTimerLabel.TabIndex = 0;
             clockTimerLabel.Text = "12:00:00";
             clockTimerLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -682,6 +683,7 @@
             // 
             // customersButton
             // 
+            customersButton.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             customersButton.Font = new Font("Microsoft Sans Serif", 10F);
             customersButton.Location = new Point(0, 100);
             customersButton.Name = "customersButton";

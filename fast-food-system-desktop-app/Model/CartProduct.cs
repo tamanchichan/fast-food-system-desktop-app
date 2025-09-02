@@ -13,11 +13,14 @@ namespace fast_food_system_desktop_app.Model
 
         public Guid CartId { get; set; }
 
-        //public Cart Cart { get; set; }
-
         public Guid ProductId { get; set; }
 
-        //public Product Product { get; set; }
+
+        public string Code { get; set; }
+
+        public Product.FoodOption? SelectedFoodOption { get; set; }
+
+        public Product.PopOption? SelectedPopOption { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "\"Price\" can not be less than zero.")]
         public decimal Price { get; set; }
@@ -29,23 +32,14 @@ namespace fast_food_system_desktop_app.Model
 
         public CartProduct() { }
 
-        //public CartProduct(Guid cartId, Cart cart, Guid productId, Product product, decimal price, int quantity, string? observation)
-        //{
-        //    Id = Guid.NewGuid();
-        //    CartId = cartId;
-        //    Cart = cart;
-        //    ProductId = productId;
-        //    Product = product;
-        //    Price = price;
-        //    Quantity = quantity;
-        //    Observation = observation;
-        //}
-
-        public CartProduct(Guid cartId, Guid productId, decimal price, int quantity, string? observation)
+        public CartProduct(Guid cartId, Guid productId, string code, Product.FoodOption foodOption, Product.PopOption popOption, decimal price, int quantity, string? observation)
         {
             Id = Guid.NewGuid();
             CartId = cartId;
             ProductId = productId;
+            Code = code;
+            SelectedFoodOption = foodOption;
+            SelectedPopOption = popOption;
             Price = price;
             Quantity = quantity;
             Observation = observation;

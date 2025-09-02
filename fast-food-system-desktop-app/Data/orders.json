@@ -512,6 +512,22 @@
       "Pst": 2.2295,
       "Gst": 1.5925,
       "Total": 35.6720
+    },
+    {
+      "$id": "34",
+      "Id": "e17a631b-ddc3-4709-9c45-e8c6ee270b5d",
+      "Number": 1033,
+      "DateOfCreation": "2025-08-31T14:23:59.5510193-05:00",
+      "CartId": "e4316c26-2779-43ea-8eec-376e77658300",
+      "CustomerId": null,
+      "PhoneNumber": "",
+      "Type": 1,
+      "Observation": "",
+      "DeliveryFee": 0,
+      "SubTotal": 85.45,
+      "Pst": 5.9815,
+      "Gst": 4.2725,
+      "Total": 95.7040
     }
   ]
 }

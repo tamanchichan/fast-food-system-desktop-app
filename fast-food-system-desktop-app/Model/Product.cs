@@ -20,7 +20,7 @@ namespace fast_food_system_desktop_app.Model
         [MinLength(3, ErrorMessage = "\"Name\" has to be at least 3 characters long.")]
         public string Name { get; set; }
 
-        public enum FoodOption
+        public enum FoodOption // Move to separate file?
         {
             Beef,
             Chicken,
@@ -30,9 +30,7 @@ namespace fast_food_system_desktop_app.Model
             Tofu
         }
 
-        public FoodOption? SelectedFoodOption { get; set; }
-
-        public enum PopOption
+        public enum PopOption // Move to separate file?
         {
             [Display(Name = "Coca-Cola")]
             Coke,
@@ -59,26 +57,34 @@ namespace fast_food_system_desktop_app.Model
             Sprite
         }
 
-        public PopOption? SelectedPopOption { get; set; }
-
         public string? Description { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "\"Price\" can not be less than zero")]
         public decimal Price { get; set; }
 
+        public bool HasFoodOptions { get; set; }
+
         public Product() { }
 
-        public Product(string code, HashSet<CartProduct>? cartProducts, HashSet<ProductCategory>? productCategories, string name, FoodOption? foodOption, PopOption? popOption, string? description, decimal price)
+        public Product(string code, string name, decimal price, bool hasFoodOptions = false)
+        {
+            Id = Guid.NewGuid();
+            Code = code;
+            Name = name;
+            Price = price;
+            HasFoodOptions = hasFoodOptions;
+        }
+
+        public Product(string code, HashSet<CartProduct>? cartProducts, HashSet<ProductCategory>? productCategories, string name, string? description, decimal price, bool hasFoodOptions)
         {
             Id = Guid.NewGuid();
             Code = code;
             CartProducts = cartProducts;
             ProductCategories = productCategories;
             Name = name;
-            SelectedFoodOption = foodOption;
-            SelectedPopOption = popOption;
             Description = description;
             Price = price;
+            HasFoodOptions = hasFoodOptions;
         }
     }
 }
