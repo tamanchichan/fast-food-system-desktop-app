@@ -264,10 +264,8 @@ namespace fast_food_system_desktop_app
                 cartProduct = new CartProduct()
                 {
                     CartId = cart.Id,
-                    //Cart = cart,
                     ProductId = product.Id,
-                    //Product = product,
-                    Code = $"{product.Code}{foodOption?.ToString().Substring(0,1)}",
+                    Code = $"{product.Code}{foodOption?.ToString().Substring(0, 1)}",
                     SelectedFoodOption = foodOption,
                     Price = product.Price,
                     Quantity = 1,
@@ -368,7 +366,7 @@ namespace fast_food_system_desktop_app
                 cpQuantity.Location = new Point(cpCode.Width + cpName.Width + cpPrice.Width, 0);
 
                 Label cpTotalPrice = new Label();
-                cpTotalPrice.Size = new Size (placeholderTotalPrice.Width, panel.Height);
+                cpTotalPrice.Size = new Size(placeholderTotalPrice.Width, panel.Height);
                 cpTotalPrice.Text = (cartProduct.Quantity * cartProduct.Price).ToString("C", new CultureInfo("en-CA"));
                 cpTotalPrice.TextAlign = ContentAlignment.MiddleCenter;
                 cpTotalPrice.Location = new Point(cpCode.Width + cpName.Width + cpPrice.Width + cpQuantity.Width, 0);
@@ -812,13 +810,170 @@ namespace fast_food_system_desktop_app
         {
             if (phoneNumberTextbox.Text.Length >= 2)
 
-            phoneSuggestionsFlowPanel.Visible = true;
+                phoneSuggestionsFlowPanel.Visible = true;
         }
 
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
             clockTimerLabel.Text = DateTime.Now.ToString("hh:mm:ss tt");
             clockTimerLabel.Location = new Point((clockTimerPanel.Width - clockTimerLabel.Width) / 2, (clockTimerPanel.Height - clockTimerLabel.Height) / 2);
+        }
+
+        // (code * quantity) add item to cart
+        private void AddItemToCartTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            string input = addItemToCartTextBox.Text.ToString().ToUpper().Trim();
+            string inputCode = "";
+            string inputQuantity = "";
+            string inputDigits = "";
+            string inputLetters = "";
+
+            Product product;
+
+            Product.FoodOption? optionPart = null;
+
+            #region get food option part
+            if (input.Contains("B"))
+            {
+                optionPart = Product.FoodOption.Beef;
+            }
+            else if (input.Contains("C"))
+            {
+                optionPart = Product.FoodOption.Chicken;
+            }
+            else if (input.Contains("M"))
+            {
+                optionPart = Product.FoodOption.Mushroom;
+            }
+            else if (input.Contains("P"))
+            {
+                optionPart = Product.FoodOption.Pork;
+            }
+            else if (input.Contains("T"))
+            {
+                optionPart = Product.FoodOption.Tofu;
+            }
+            #endregion
+
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    return;
+                }
+
+                if (input.Contains("*"))
+                {
+                    string[] parts = input.Split("*");
+                    
+                    inputCode = parts[0].Trim();
+
+                    foreach (char c in inputCode)
+                    {
+                        if (char.IsDigit(c))
+                        {
+                            inputDigits += c;
+                        }
+                        else if (char.IsLetter(c))
+                        {
+                            inputLetters += c;
+                        }
+                    }
+
+                    inputQuantity = parts[1].Trim();
+
+                    string code = inputLetters != string.Empty ? $"{inputDigits}{inputLetters[0]}" : inputDigits;
+
+                    product = DataAccess.Products.FirstOrDefault(p => p.Code == code);
+
+                    if (product != null)
+                    {
+                        for (int i = 0; i < int.Parse(inputQuantity); i++)
+                        {
+                            if (product.HasOptions == true)
+                            {
+                                AddItemToCart(product, optionPart);
+                            }
+                            else
+                            {
+                                AddItemToCart(product);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        product = DataAccess.Products.FirstOrDefault(p => p.Code == inputDigits);
+
+                        if (product != null)
+                        {
+                            for (int i = 0; i < int.Parse(inputQuantity); i++)
+                            {
+                                if (product.HasOptions == true)
+                                {
+                                    AddItemToCart(product, optionPart);
+                                }
+                                else
+                                {
+                                    AddItemToCart(product);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (char c in input)
+                    {
+                        if (char.IsDigit(c))
+                        {
+                            inputDigits += c;
+                        }
+                        if (char.IsLetter(c))
+                        {
+                            inputLetters += c;
+                        }
+                    }
+
+                    string code = inputLetters != string.Empty ? $"{inputDigits}{inputLetters[0]}" : inputDigits;
+
+                    product = DataAccess.Products.FirstOrDefault(p => p.Code == code);
+
+                    if (product != null)
+                    {
+                        if (product.HasOptions == true)
+                        {
+                            AddItemToCart(product, optionPart);
+                        }
+                        else
+                        {
+                            AddItemToCart(product);
+                        }
+                    }
+
+                    else
+                    {
+                        product = DataAccess.Products.FirstOrDefault(p => p.Code == inputDigits);
+
+                        if (product != null)
+                        {
+                            if (product.HasOptions == true)
+                            {
+                                AddItemToCart(product, optionPart);
+                            }
+                            else
+                            {
+                                AddItemToCart(product);
+                            }
+                        }
+                    }
+                }
+
+                addItemToCartTextBox.Text = "";
+                DisplayCartDetails();
+                RefreshCurrentPanel();
+            }
         }
     }
 }

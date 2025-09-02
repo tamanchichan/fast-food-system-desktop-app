@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             homeFlowLayoutPanel = new FlowLayoutPanel();
+            addItemToCartTextBox = new TextBox();
             cartFlowLayoutPanel = new FlowLayoutPanel();
             cartButton = new Button();
             homeButton = new Button();
@@ -40,6 +41,7 @@
             ordersButton = new Button();
             clearCartButton = new Button();
             formPanel = new Panel();
+            addItemToCartPanel = new Panel();
             cartDetailsPanel = new Panel();
             clockTimerPanel = new Panel();
             clockTimerLabel = new Label();
@@ -82,6 +84,7 @@
             customersButton = new Button();
             clockTimer = new System.Windows.Forms.Timer(components);
             formPanel.SuspendLayout();
+            addItemToCartPanel.SuspendLayout();
             cartDetailsPanel.SuspendLayout();
             clockTimerPanel.SuspendLayout();
             observationPlaceholderPanel.SuspendLayout();
@@ -106,18 +109,27 @@
             // 
             homeFlowLayoutPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             homeFlowLayoutPanel.Font = new Font("Microsoft Sans Serif", 10F);
-            homeFlowLayoutPanel.Location = new Point(150, 0);
+            homeFlowLayoutPanel.Location = new Point(150, 35);
             homeFlowLayoutPanel.Name = "homeFlowLayoutPanel";
-            homeFlowLayoutPanel.Size = new Size(573, 768);
+            homeFlowLayoutPanel.Size = new Size(573, 733);
             homeFlowLayoutPanel.TabIndex = 0;
+            // 
+            // addItemToCartTextBox
+            // 
+            addItemToCartTextBox.Location = new Point(6, 3);
+            addItemToCartTextBox.Name = "addItemToCartTextBox";
+            addItemToCartTextBox.Size = new Size(561, 26);
+            addItemToCartTextBox.TabIndex = 0;
+            addItemToCartTextBox.TextAlign = HorizontalAlignment.Center;
+            addItemToCartTextBox.KeyPress += AddItemToCartTextBox_KeyPress;
             // 
             // cartFlowLayoutPanel
             // 
             cartFlowLayoutPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             cartFlowLayoutPanel.Font = new Font("Microsoft Sans Serif", 10F);
-            cartFlowLayoutPanel.Location = new Point(150, 0);
+            cartFlowLayoutPanel.Location = new Point(150, 35);
             cartFlowLayoutPanel.Name = "cartFlowLayoutPanel";
-            cartFlowLayoutPanel.Size = new Size(573, 768);
+            cartFlowLayoutPanel.Size = new Size(573, 733);
             cartFlowLayoutPanel.TabIndex = 1;
             // 
             // cartButton
@@ -187,9 +199,9 @@
             // 
             ordersFlowLayoutPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             ordersFlowLayoutPanel.Font = new Font("Microsoft Sans Serif", 10F);
-            ordersFlowLayoutPanel.Location = new Point(152, 0);
+            ordersFlowLayoutPanel.Location = new Point(150, 35);
             ordersFlowLayoutPanel.Name = "ordersFlowLayoutPanel";
-            ordersFlowLayoutPanel.Size = new Size(872, 765);
+            ordersFlowLayoutPanel.Size = new Size(872, 730);
             ordersFlowLayoutPanel.TabIndex = 0;
             // 
             // ordersButton
@@ -219,6 +231,7 @@
             // formPanel
             // 
             formPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            formPanel.Controls.Add(addItemToCartPanel);
             formPanel.Controls.Add(cartDetailsPanel);
             formPanel.Controls.Add(buttonsPanel);
             formPanel.Controls.Add(homeFlowLayoutPanel);
@@ -229,6 +242,14 @@
             formPanel.Name = "formPanel";
             formPanel.Size = new Size(1024, 768);
             formPanel.TabIndex = 0;
+            // 
+            // addItemToCartPanel
+            // 
+            addItemToCartPanel.Controls.Add(addItemToCartTextBox);
+            addItemToCartPanel.Location = new Point(150, 0);
+            addItemToCartPanel.Name = "addItemToCartPanel";
+            addItemToCartPanel.Size = new Size(573, 33);
+            addItemToCartPanel.TabIndex = 0;
             // 
             // cartDetailsPanel
             // 
@@ -706,6 +727,8 @@
             Name = "Form1";
             Text = "Form1";
             formPanel.ResumeLayout(false);
+            addItemToCartPanel.ResumeLayout(false);
+            addItemToCartPanel.PerformLayout();
             cartDetailsPanel.ResumeLayout(false);
             clockTimerPanel.ResumeLayout(false);
             observationPlaceholderPanel.ResumeLayout(false);
@@ -798,5 +821,7 @@
         private Label clockTimerLabel;
         private System.Windows.Forms.Timer clockTimer;
         private FlowLayoutPanel phoneSuggestionsFlowPanel;
+        private TextBox addItemToCartTextBox;
+        private Panel addItemToCartPanel;
     }
 }

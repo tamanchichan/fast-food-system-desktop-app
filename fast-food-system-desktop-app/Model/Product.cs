@@ -24,6 +24,7 @@ namespace fast_food_system_desktop_app.Model
         {
             Beef,
             Chicken,
+            Fish,
             Mushroom,
             Pork,
             Shrimp,
