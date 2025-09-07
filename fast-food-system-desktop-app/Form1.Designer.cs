@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             homeFlowLayoutPanel = new FlowLayoutPanel();
+            dataAccessBindingSource = new BindingSource(components);
             addItemToCartTextBox = new TextBox();
             cartFlowLayoutPanel = new FlowLayoutPanel();
             cartButton = new Button();
@@ -58,6 +59,7 @@
             phoneNumberTextbox = new TextBox();
             phoneNumberLabel = new Label();
             addressPlaceholderPanel = new Panel();
+            phoneSuggestionsFlowPanel = new FlowLayoutPanel();
             addressTextboxPanel = new Panel();
             addressTextbox = new TextBox();
             addressLabel = new Label();
@@ -79,10 +81,10 @@
             subTotalPriceLabel = new Label();
             placeOrderButton = new Button();
             radiosPanel = new Panel();
-            phoneSuggestionsFlowPanel = new FlowLayoutPanel();
             buttonsPanel = new Panel();
             customersButton = new Button();
             clockTimer = new System.Windows.Forms.Timer(components);
+            ((System.ComponentModel.ISupportInitialize)dataAccessBindingSource).BeginInit();
             formPanel.SuspendLayout();
             addItemToCartPanel.SuspendLayout();
             cartDetailsPanel.SuspendLayout();
@@ -108,15 +110,22 @@
             // homeFlowLayoutPanel
             // 
             homeFlowLayoutPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            homeFlowLayoutPanel.AutoScroll = true;
             homeFlowLayoutPanel.Font = new Font("Microsoft Sans Serif", 10F);
             homeFlowLayoutPanel.Location = new Point(150, 35);
             homeFlowLayoutPanel.Name = "homeFlowLayoutPanel";
             homeFlowLayoutPanel.Size = new Size(573, 733);
             homeFlowLayoutPanel.TabIndex = 0;
             // 
+            // dataAccessBindingSource
+            // 
+            dataAccessBindingSource.DataSource = typeof(Data.DataAccess);
+            // 
             // addItemToCartTextBox
             // 
+            addItemToCartTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             addItemToCartTextBox.Location = new Point(6, 3);
+            addItemToCartTextBox.Multiline = true;
             addItemToCartTextBox.Name = "addItemToCartTextBox";
             addItemToCartTextBox.Size = new Size(561, 26);
             addItemToCartTextBox.TabIndex = 0;
@@ -201,7 +210,7 @@
             ordersFlowLayoutPanel.Font = new Font("Microsoft Sans Serif", 10F);
             ordersFlowLayoutPanel.Location = new Point(150, 35);
             ordersFlowLayoutPanel.Name = "ordersFlowLayoutPanel";
-            ordersFlowLayoutPanel.Size = new Size(872, 730);
+            ordersFlowLayoutPanel.Size = new Size(872, 733);
             ordersFlowLayoutPanel.TabIndex = 0;
             // 
             // ordersButton
@@ -245,6 +254,7 @@
             // 
             // addItemToCartPanel
             // 
+            addItemToCartPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             addItemToCartPanel.Controls.Add(addItemToCartTextBox);
             addItemToCartPanel.Location = new Point(150, 0);
             addItemToCartPanel.Name = "addItemToCartPanel";
@@ -266,7 +276,6 @@
             cartDetailsPanel.Controls.Add(subTotalPricePlaceholderPanel);
             cartDetailsPanel.Controls.Add(placeOrderButton);
             cartDetailsPanel.Controls.Add(radiosPanel);
-            cartDetailsPanel.Controls.Add(phoneSuggestionsFlowPanel);
             cartDetailsPanel.Font = new Font("Microsoft Sans Serif", 10F);
             cartDetailsPanel.Location = new Point(723, 0);
             cartDetailsPanel.Name = "cartDetailsPanel";
@@ -392,7 +401,7 @@
             // 
             // phoneNumberTextboxPanel
             // 
-            phoneNumberTextboxPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            phoneNumberTextboxPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             phoneNumberTextboxPanel.BorderStyle = BorderStyle.FixedSingle;
             phoneNumberTextboxPanel.Controls.Add(phoneNumberTextbox);
             phoneNumberTextboxPanel.Location = new Point(5, 25);
@@ -412,7 +421,7 @@
             phoneNumberTextbox.TextChanged += PhoneNumberTextbox_TextChanged;
             phoneNumberTextbox.GotFocus += PhoneNumberTextbox_OnFocus;
             phoneNumberTextbox.KeyPress += PhoneNumberTextbox_KeyPress;
-            phoneNumberTextbox.Leave += PhoneNumberTextbox_Leave;
+            phoneNumberTextbox.Leave += PhoneNumberTextbox_OnLeave;
             // 
             // phoneNumberLabel
             // 
@@ -429,6 +438,7 @@
             // addressPlaceholderPanel
             // 
             addressPlaceholderPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            addressPlaceholderPanel.Controls.Add(phoneSuggestionsFlowPanel);
             addressPlaceholderPanel.Controls.Add(addressTextboxPanel);
             addressPlaceholderPanel.Controls.Add(addressLabel);
             addressPlaceholderPanel.Font = new Font("Microsoft Sans Serif", 10F);
@@ -436,6 +446,16 @@
             addressPlaceholderPanel.Name = "addressPlaceholderPanel";
             addressPlaceholderPanel.Size = new Size(300, 70);
             addressPlaceholderPanel.TabIndex = 16;
+            // 
+            // phoneSuggestionsFlowPanel
+            // 
+            phoneSuggestionsFlowPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            phoneSuggestionsFlowPanel.BorderStyle = BorderStyle.FixedSingle;
+            phoneSuggestionsFlowPanel.Location = new Point(5, 0);
+            phoneSuggestionsFlowPanel.Name = "phoneSuggestionsFlowPanel";
+            phoneSuggestionsFlowPanel.Size = new Size(290, 0);
+            phoneSuggestionsFlowPanel.TabIndex = 31;
+            phoneSuggestionsFlowPanel.Visible = false;
             // 
             // addressTextboxPanel
             // 
@@ -679,15 +699,6 @@
             radiosPanel.Size = new Size(300, 33);
             radiosPanel.TabIndex = 6;
             // 
-            // phoneSuggestionsFlowPanel
-            // 
-            phoneSuggestionsFlowPanel.BorderStyle = BorderStyle.FixedSingle;
-            phoneSuggestionsFlowPanel.Location = new Point(5, 407);
-            phoneSuggestionsFlowPanel.Name = "phoneSuggestionsFlowPanel";
-            phoneSuggestionsFlowPanel.Size = new Size(290, 40);
-            phoneSuggestionsFlowPanel.TabIndex = 31;
-            phoneSuggestionsFlowPanel.Visible = false;
-            // 
             // buttonsPanel
             // 
             buttonsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
@@ -726,6 +737,7 @@
             Controls.Add(formPanel);
             Name = "Form1";
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)dataAccessBindingSource).EndInit();
             formPanel.ResumeLayout(false);
             addItemToCartPanel.ResumeLayout(false);
             addItemToCartPanel.PerformLayout();
@@ -823,5 +835,6 @@
         private FlowLayoutPanel phoneSuggestionsFlowPanel;
         private TextBox addItemToCartTextBox;
         private Panel addItemToCartPanel;
+        private BindingSource dataAccessBindingSource;
     }
 }

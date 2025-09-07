@@ -15,6 +15,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -26,6 +27,7 @@
             "ProductId": "1f0b1677-27bc-4e65-8b31-e2bb60c9b195",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.75,
             "Quantity": 2,
             "Observation": null
@@ -47,6 +49,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -58,6 +61,7 @@
             "ProductId": "1f0b1677-27bc-4e65-8b31-e2bb60c9b195",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.75,
             "Quantity": 2,
             "Observation": null
@@ -69,6 +73,7 @@
             "ProductId": "ed37dd21-f360-4f39-a976-ba6682243468",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.95,
             "Quantity": 1,
             "Observation": null
@@ -90,6 +95,7 @@
             "ProductId": "ed37dd21-f360-4f39-a976-ba6682243468",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.95,
             "Quantity": 2,
             "Observation": null
@@ -111,6 +117,7 @@
             "ProductId": "cbd0aaf9-092b-4c1a-8073-f1f99d98c835",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -132,6 +139,7 @@
             "ProductId": "79d6df82-4d29-4d98-8a4a-7318b8631760",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 6.50,
             "Quantity": 1,
             "Observation": null
@@ -153,6 +161,7 @@
             "ProductId": "cbd0aaf9-092b-4c1a-8073-f1f99d98c835",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 2,
             "Observation": null
@@ -174,6 +183,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 2,
             "Observation": null
@@ -204,6 +214,7 @@
             "ProductId": "ca693735-9bf7-4364-bd7c-974793e10f3b",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 6.95,
             "Quantity": 2,
             "Observation": null
@@ -225,6 +236,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -236,6 +248,7 @@
             "ProductId": "ed37dd21-f360-4f39-a976-ba6682243468",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.95,
             "Quantity": 4,
             "Observation": null
@@ -257,6 +270,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -268,6 +282,7 @@
             "ProductId": "ed37dd21-f360-4f39-a976-ba6682243468",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.95,
             "Quantity": 4,
             "Observation": null
@@ -370,6 +385,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 2,
             "Observation": null
@@ -391,6 +407,7 @@
             "ProductId": "cbd0aaf9-092b-4c1a-8073-f1f99d98c835",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 2,
             "Observation": null
@@ -412,6 +429,7 @@
             "ProductId": "36f637c0-109b-4c46-9695-ae7248291914",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 14.50,
             "Quantity": 1,
             "Observation": null
@@ -423,6 +441,7 @@
             "ProductId": "dab48c52-9cfb-4b0d-9df2-b47add05c282",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.45,
             "Quantity": 1,
             "Observation": null
@@ -434,6 +453,7 @@
             "ProductId": "79d6df82-4d29-4d98-8a4a-7318b8631760",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 6.50,
             "Quantity": 1,
             "Observation": null
@@ -445,6 +465,7 @@
             "ProductId": "45602c90-5fb1-4ad5-aa3d-7965e654c91f",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 3.95,
             "Quantity": 2,
             "Observation": null
@@ -456,6 +477,7 @@
             "ProductId": "ed37dd21-f360-4f39-a976-ba6682243468",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.95,
             "Quantity": 5,
             "Observation": null
@@ -477,6 +499,7 @@
             "ProductId": "36f637c0-109b-4c46-9695-ae7248291914",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 14.50,
             "Quantity": 1,
             "Observation": null
@@ -498,6 +521,7 @@
             "ProductId": "ca693735-9bf7-4364-bd7c-974793e10f3b",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 6.95,
             "Quantity": 1,
             "Observation": null
@@ -519,6 +543,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -540,6 +565,7 @@
             "ProductId": "36f637c0-109b-4c46-9695-ae7248291914",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 14.50,
             "Quantity": 1,
             "Observation": null
@@ -561,6 +587,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -582,6 +609,7 @@
             "ProductId": "45602c90-5fb1-4ad5-aa3d-7965e654c91f",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 3.95,
             "Quantity": 1,
             "Observation": null
@@ -603,6 +631,7 @@
             "ProductId": "ed37dd21-f360-4f39-a976-ba6682243468",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.95,
             "Quantity": 1,
             "Observation": null
@@ -624,6 +653,7 @@
             "ProductId": "ed37dd21-f360-4f39-a976-ba6682243468",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.95,
             "Quantity": 1,
             "Observation": null
@@ -645,6 +675,7 @@
             "ProductId": "45602c90-5fb1-4ad5-aa3d-7965e654c91f",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 3.95,
             "Quantity": 1,
             "Observation": null
@@ -656,6 +687,7 @@
             "ProductId": "cbd0aaf9-092b-4c1a-8073-f1f99d98c835",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -667,6 +699,7 @@
             "ProductId": "6358d3a0-1700-4848-a527-e28ffa26cfc2",
             "Code": null,
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -688,6 +721,7 @@
             "ProductId": "4f25cef4-41ce-49c2-81e4-af9cb43bfc7b",
             "Code": "7",
             "SelectedFoodOption": null,
+            "SelectedPopOption": null,
             "Price": 1.75,
             "Quantity": 1,
             "Observation": null
@@ -699,6 +733,7 @@
             "ProductId": "09b5634a-7542-4184-a617-e2ded1e9d85e",
             "Code": "10Pork",
             "SelectedFoodOption": 3,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 2,
             "Observation": null
@@ -710,6 +745,7 @@
             "ProductId": "09b5634a-7542-4184-a617-e2ded1e9d85e",
             "Code": "10Shrimp",
             "SelectedFoodOption": 4,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -721,6 +757,7 @@
             "ProductId": "09b5634a-7542-4184-a617-e2ded1e9d85e",
             "Code": "10Tofu",
             "SelectedFoodOption": 5,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -732,6 +769,7 @@
             "ProductId": "09b5634a-7542-4184-a617-e2ded1e9d85e",
             "Code": "10Beef",
             "SelectedFoodOption": 0,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -743,6 +781,7 @@
             "ProductId": "09b5634a-7542-4184-a617-e2ded1e9d85e",
             "Code": "10Mushroom",
             "SelectedFoodOption": 2,
+            "SelectedPopOption": null,
             "Price": 13.95,
             "Quantity": 1,
             "Observation": null
@@ -756,7 +795,66 @@
       "OrderId": null,
       "CartProducts": {
         "$id": "108",
-        "$values": []
+        "$values": [
+          {
+            "$id": "109",
+            "Id": "00000000-0000-0000-0000-000000000000",
+            "CartId": "caa6579e-3923-4512-8d08-977fba098b2c",
+            "ProductId": "959f768a-a6d1-4aaa-900e-dac290873208",
+            "Code": "23C",
+            "SelectedFoodOption": 1,
+            "SelectedPopOption": null,
+            "Price": 11.50,
+            "Quantity": 1,
+            "Observation": null
+          },
+          {
+            "$id": "110",
+            "Id": "00000000-0000-0000-0000-000000000000",
+            "CartId": "caa6579e-3923-4512-8d08-977fba098b2c",
+            "ProductId": "959f768a-a6d1-4aaa-900e-dac290873208",
+            "Code": "23B",
+            "SelectedFoodOption": 0,
+            "SelectedPopOption": null,
+            "Price": 11.50,
+            "Quantity": 1,
+            "Observation": null
+          }
+        ]
+      }
+    },
+    {
+      "$id": "111",
+      "Id": "f32ba14f-1e98-41a4-909d-0415fe4868d6",
+      "OrderId": null,
+      "CartProducts": {
+        "$id": "112",
+        "$values": [
+          {
+            "$id": "113",
+            "Id": "00000000-0000-0000-0000-000000000000",
+            "CartId": "f32ba14f-1e98-41a4-909d-0415fe4868d6",
+            "ProductId": "b3e103a3-0353-4ad2-8054-37aad3750187",
+            "Code": "1",
+            "SelectedFoodOption": null,
+            "SelectedPopOption": null,
+            "Price": 13.95,
+            "Quantity": 1,
+            "Observation": null
+          },
+          {
+            "$id": "114",
+            "Id": "00000000-0000-0000-0000-000000000000",
+            "CartId": "f32ba14f-1e98-41a4-909d-0415fe4868d6",
+            "ProductId": "6bf3f31f-dd75-48fa-9352-a319110c9d3d",
+            "Code": "10AB",
+            "SelectedFoodOption": 0,
+            "SelectedPopOption": null,
+            "Price": 13.95,
+            "Quantity": 1,
+            "Observation": null
+          }
+        ]
       }
     }
   ]
