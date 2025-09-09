@@ -1,6 +1,2 @@
-﻿- Update "cartPanel" display, display PST (7%) and GST (5%)
-
-- Create a "CreateOrderItems" method to display a list of "Order"
-
-- Create a "TextBox" and a method to add "Product" to "CartProduct",
-"AddItemToCart" method by inputting the "Product" Code and "Quantity".
+﻿- Fix 'cartProductPlaceholderPanel's width (to subtract if scrollbar appears).
+- Add color to Increment & Decrement 'buttons' (Labels).

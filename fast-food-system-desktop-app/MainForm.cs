@@ -9,9 +9,9 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace fast_food_system_desktop_app
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -29,7 +29,7 @@ namespace fast_food_system_desktop_app
 
         private Dictionary<Guid, Label> productQuantityLabels = new Dictionary<Guid, Label>();
 
-        private enum PanelType { Home, Cart } // Add Order later
+        private enum PanelType { Home, Cart, Orders }
 
         private PanelType currentPanel = PanelType.Home;
 
@@ -37,35 +37,23 @@ namespace fast_food_system_desktop_app
         {
             if (currentPanel == PanelType.Home)
             {
-                HashSet<Product> products = DataAccess.Products;
-
-                foreach (Product product in products)
-                {
-                    if (productQuantityLabels.ContainsKey(product.Id))
-                    {
-                        Label quantityLabel = productQuantityLabels[product.Id];
-                        Cart cart = DataAccess.Cart;
-                        quantityLabel.Text = cart.CartProducts.Where(cp => cp.ProductId == product.Id).Sum(cp => cp.Quantity).ToString();
-                    }
-                }
+                HomeLoad();
             }
             else if (currentPanel == PanelType.Cart)
             {
                 CartLoad();
             }
 
-            // Uncomment this when OrdersLoad is implemented
-            // else if (currentPanel == PanelType.Orders)
-            //{
-            //    OrdersLoad();
-            //}
+            else if (currentPanel == PanelType.Orders)
+            {
+                OrdersLoad();
+            }
         }
 
         protected void HomeLoad()
         {
             homeFlowLayoutPanel.Controls.Clear();
-            homeFlowLayoutPanel.BringToFront();
-            cartDetailsPanel.BringToFront();
+
             CreateHomeItems(DataAccess.Products);
         }
 
@@ -75,8 +63,8 @@ namespace fast_food_system_desktop_app
 
             CreateCartItems(DataAccess.Cart.CartProducts);
 
-            cartFlowLayoutPanel.BringToFront();
-            cartDetailsPanel.BringToFront();
+            AdjustPlaceholderWidth();
+            AdjustCartProductItemWidth();
         }
 
         protected void OrdersLoad()
@@ -84,8 +72,6 @@ namespace fast_food_system_desktop_app
             ordersFlowLayoutPanel.Controls.Clear();
 
             CreateOrderItems(DataAccess.Orders);
-
-            ordersFlowLayoutPanel.BringToFront();
         }
 
         protected void ClosingHandler(object sender, EventArgs e)
@@ -437,103 +423,164 @@ namespace fast_food_system_desktop_app
             }
         }
 
+        private void CreateCartItemPanel(CartProduct cartProduct)
+        {
+            Product product = DataAccess.Products.FirstOrDefault(p => p.Id == cartProduct.ProductId);
+
+            Panel panel = new Panel();
+            Label code = new Label();
+            Label name = new Label();
+            Label price = new Label();
+            Label quantity = new Label();
+            Label totalPrice = new Label();
+            Label decrementQuantity = new Label();
+            Label incrementQuantity = new Label();
+            List<Label> labels = new List<Label>()
+            {
+                code, name, price, quantity, totalPrice, decrementQuantity, incrementQuantity
+            };
+
+            panel.BorderStyle = BorderStyle.FixedSingle;
+            panel.Height = cartProductPlaceholderPanel.Height;
+            panel.Margin = new Padding(0);
+            panel.Width = cartProductPlaceholderPanel.Width;
+
+
+            code.Text = $"{cartProduct.Code}";
+            code.Width = cartProductCodePlaceholder.Width;
+;
+            name.Location = new Point(code.Right, 0);
+            name.Text = $"{product.Name} {cartProduct?.SelectedFoodOption}";
+            name.Width = cartProductNamePlaceholder.Width;
+
+            price.Location = new Point(name.Right, 0);
+            price.Text = cartProduct.Price.ToString("C", new CultureInfo("en-CA"));
+            price.Width = cartProductPricePlaceholder.Width;
+
+            quantity.Location = new Point(price.Right, 0);
+            quantity.Text = cartProduct.Quantity.ToString();
+            quantity.Width = cartProductQuantityPlaceholder.Width;
+
+            totalPrice.Location = new Point(quantity.Right, 0);
+            totalPrice.Text = (cartProduct.Quantity * cartProduct.Price).ToString("C", new CultureInfo("en-CA"));
+            totalPrice.Width = cartProductTotalPricePlaceholder.Width;
+
+            decrementQuantity.Click += (s, e) =>
+            {
+               DecrementCartProductQuantity(cartProduct);
+
+                //quantity.Text = cartProduct.Quantity.ToString();
+                //totalPrice.Text = (cartProduct.Quantity * cartProduct.Price).ToString("C", new CultureInfo("en-CA"));
+                RefreshCurrentPanel();
+
+                DisplayCartDetails();
+            };
+            decrementQuantity.Location = new Point(totalPrice.Right, 0);
+            decrementQuantity.Text = "-";
+            decrementQuantity.Width = (cartProductIncrementOrDecrementLabel.Width / 2);
+
+            incrementQuantity.Click += (s, e) =>
+            {
+                IncrementCartProductQuantity(cartProduct);
+                
+                //quantity.Text = cartProduct.Quantity.ToString();
+                //totalPrice.Text = (cartProduct.Quantity * cartProduct.Price).ToString("C", new CultureInfo("en-CA"));
+                RefreshCurrentPanel();
+
+                DisplayCartDetails();
+            };
+            incrementQuantity.Location = new Point(decrementQuantity.Right, 0);
+            incrementQuantity.Text = "+";
+            incrementQuantity.Width = (cartProductIncrementOrDecrementLabel.Width / 2);
+
+            foreach (Label label in labels)
+            {
+                if (label == code)
+                {
+                    label.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                }
+                else if (label == name)
+                {
+                    label.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+                }
+                else
+                {
+                    label.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                }
+                label.AutoSize = false;
+                label.BorderStyle = BorderStyle.FixedSingle;
+                label.Height = cartProductPlaceholderPanel.Height;
+                label.TextAlign = ContentAlignment.MiddleCenter;
+
+                panel.Controls.Add(label);
+            }
+
+            cartFlowLayoutPanel.Controls.Add(panel);
+        }
+
+        private void AdjustPlaceholderWidth()
+        {
+            int availableWidth = cartProductPlaceholderPanel.Width;
+
+            if (cartFlowLayoutPanel.VerticalScroll.Visible)
+                availableWidth -= SystemInformation.VerticalScrollBarWidth;
+
+            cartProductPlaceholderPanel.Width = availableWidth;
+        }
+        
+        private void AdjustCartProductItemWidth()
+        {
+            int availableWidth = cartProductPlaceholderPanel.Width;
+
+            if (cartFlowLayoutPanel.VerticalScroll.Visible)
+                availableWidth -= SystemInformation.VerticalScrollBarWidth;
+
+            foreach (Control ctrl in cartFlowLayoutPanel.Controls)
+            {
+                ctrl.Width = availableWidth;
+            }
+        }
+
+        private void CartFlowLayoutPanel_Resize(object sender, EventArgs e)
+        {
+            AdjustCartProductItemWidth();
+            AdjustPlaceholderWidth();
+        }
+
         private void CreateCartItems(HashSet<CartProduct> cartProducts)
         {
-            Panel placeholderPanel = new Panel();
-            placeholderPanel.BorderStyle = BorderStyle.Fixed3D;
-            placeholderPanel.Size = new Size(cartFlowLayoutPanel.Width, 50);
-            placeholderPanel.Margin = new Padding(10);
-
-            Label placeholderCode = new Label();
-            placeholderCode.BorderStyle = BorderStyle.FixedSingle;
-            placeholderCode.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.10), placeholderPanel.Height);
-            placeholderCode.Text = "Code";
-            placeholderCode.TextAlign = ContentAlignment.MiddleCenter;
-
-            Label placeholderName = new Label();
-            placeholderName.BorderStyle = BorderStyle.FixedSingle;
-            placeholderName.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.50), placeholderPanel.Height);
-            placeholderName.Text = "Name";
-            placeholderName.TextAlign = ContentAlignment.MiddleCenter;
-            placeholderName.Location = new Point(placeholderCode.Width, 0);
-
-            Label placeholderPrice = new Label();
-            placeholderPrice.BorderStyle = BorderStyle.FixedSingle;
-            placeholderPrice.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.10), placeholderPanel.Height);
-            placeholderPrice.Text = "Price";
-            placeholderPrice.TextAlign = ContentAlignment.MiddleCenter;
-            placeholderPrice.Location = new Point(placeholderCode.Width + placeholderName.Width, 0);
-
-            Label placeholderQuantity = new Label();
-            placeholderQuantity.BorderStyle = BorderStyle.FixedSingle;
-            placeholderQuantity.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.15), placeholderPanel.Height);
-            placeholderQuantity.Text = "Quantity";
-            placeholderQuantity.TextAlign = ContentAlignment.MiddleCenter;
-            placeholderQuantity.Location = new Point(placeholderCode.Width + placeholderName.Width + placeholderPrice.Width, 0);
-
-            Label placeholderTotalPrice = new Label();
-            placeholderTotalPrice.BorderStyle = BorderStyle.FixedSingle;
-            placeholderTotalPrice.Size = new Size((int)(cartFlowLayoutPanel.Width * 0.15), placeholderPanel.Height);
-            placeholderTotalPrice.Text = "Total Price";
-            placeholderTotalPrice.TextAlign = ContentAlignment.MiddleCenter;
-            placeholderTotalPrice.Location = new Point(placeholderCode.Width + placeholderName.Width + placeholderPrice.Width + placeholderQuantity.Width, 0);
-
-            placeholderPanel.Controls.Add(placeholderCode);
-            placeholderPanel.Controls.Add(placeholderName);
-            placeholderPanel.Controls.Add(placeholderPrice);
-            placeholderPanel.Controls.Add(placeholderQuantity);
-            placeholderPanel.Controls.Add(placeholderTotalPrice);
-
-            cartFlowLayoutPanel.Controls.Add(placeholderPanel);
-
             foreach (CartProduct cartProduct in cartProducts)
             {
-                Product product = DataAccess.Products.FirstOrDefault(p => p.Id == cartProduct.ProductId);
+                CreateCartItemPanel(cartProduct);
+            }
+        }
 
-                Panel panel = new Panel();
-                panel.BorderStyle = BorderStyle.Fixed3D;
-                panel.Cursor = Cursors.Hand;
-                panel.Margin = new Padding(panel.Margin.Left, 0, panel.Margin.Right, 0);
-                panel.Size = new Size(cartFlowLayoutPanel.Width, 50);
+        private void IncrementCartProductQuantity(CartProduct cartProduct)
+        {
+            Product product = DataAccess.Products.FirstOrDefault(p => p.Id == cartProduct.ProductId);
 
-                Label cpCode = new Label();
-                cpCode.Size = new Size(placeholderCode.Width, panel.Height);
-                cpCode.Text = cartProduct.Code;
-                cpCode.TextAlign = ContentAlignment.MiddleCenter;
+            cartProduct.Quantity++;
 
-                Label cpName = new Label();
-                cpName.Size = new Size(placeholderName.Width, panel.Height);
-                cpName.Text = $"{product.Name} {cartProduct.SelectedFoodOption?.ToString()}";
-                cpName.TextAlign = ContentAlignment.MiddleCenter;
-                cpName.Location = new Point(cpCode.Width, 0);
+            productQuantityLabels[product.Id].Text = cartProduct.Quantity.ToString();
+        }
 
+        private void DecrementCartProductQuantity(CartProduct cartProduct)
+        {
+            Cart cart = DataAccess.Cart;
+            Product product = DataAccess.Products.FirstOrDefault(p => p.Id == cartProduct.ProductId);
 
-                Label cpPrice = new Label();
-                cpPrice.Size = new Size(placeholderPrice.Width, panel.Height);
-                cpPrice.Text = cartProduct.Price.ToString("C", new CultureInfo("en-CA"));
-                cpPrice.TextAlign = ContentAlignment.MiddleCenter;
-                cpPrice.Location = new Point(cpCode.Width + cpName.Width, 0);
+            if (cartProduct.Quantity == 1)
+            {
+                cart.CartProducts.Remove(cartProduct);
+            }
+            else
+            {
+                cartProduct.Quantity--;
+            }
 
-                Label cpQuantity = new Label();
-                cpQuantity.Size = new Size(placeholderQuantity.Width, panel.Height);
-                cpQuantity.Text = cartProduct.Quantity.ToString();
-                cpQuantity.TextAlign = ContentAlignment.MiddleCenter;
-
-                cpQuantity.Location = new Point(cpCode.Width + cpName.Width + cpPrice.Width, 0);
-
-                Label cpTotalPrice = new Label();
-                cpTotalPrice.Size = new Size(placeholderTotalPrice.Width, panel.Height);
-                cpTotalPrice.Text = (cartProduct.Quantity * cartProduct.Price).ToString("C", new CultureInfo("en-CA"));
-                cpTotalPrice.TextAlign = ContentAlignment.MiddleCenter;
-                cpTotalPrice.Location = new Point(cpCode.Width + cpName.Width + cpPrice.Width + cpQuantity.Width, 0);
-
-                panel.Controls.Add(cpCode);
-                panel.Controls.Add(cpName);
-                panel.Controls.Add(cpPrice);
-                panel.Controls.Add(cpQuantity);
-                panel.Controls.Add(cpTotalPrice);
-
-                cartFlowLayoutPanel.Controls.Add(panel);
+            if (productQuantityLabels.ContainsKey(product.Id))
+            {
+                productQuantityLabels[product.Id].Text = cartProduct.Quantity.ToString();
             }
         }
 
@@ -551,6 +598,11 @@ namespace fast_food_system_desktop_app
                 if (product != null)
                 {
                     product.CartProducts.Remove(cartProduct);
+
+                    if (productQuantityLabels.ContainsKey(product.Id))
+                    {
+                        productQuantityLabels[product.Id].Text = cart.CartProducts.Where(cp => cp.ProductId == product.Id).Sum(cp => cp.Quantity).ToString();
+                    }
                 }
             }
 
@@ -714,6 +766,12 @@ namespace fast_food_system_desktop_app
             }
         }
 
+        private void CreateOrderItem(Order order)
+        {
+            Panel panel = new Panel();
+            panel.BorderStyle = BorderStyle.FixedSingle;
+        }
+
         private void CreateOrderItems(HashSet<Order> orders)
         {
             int leftPadding = 10;
@@ -772,20 +830,43 @@ namespace fast_food_system_desktop_app
         private void ShowCartPanel(object sender, EventArgs e)
         {
             currentPanel = PanelType.Cart;
+
+            ordersPanel.SendToBack();
+
+            homeFlowLayoutPanel.SendToBack();
+
+            cartPanel.BringToFront();
+
+            cartDetailsPanel.BringToFront();
+
             CartLoad();
         }
 
         private void ShowHomePanel(object sender, EventArgs e)
         {
             currentPanel = PanelType.Home;
-            //homeFlowLayoutPanel.Controls.Clear();
+
+            cartPanel.SendToBack();
+
+            ordersPanel.SendToBack();
+
             homeFlowLayoutPanel.BringToFront();
+
             cartDetailsPanel.BringToFront();
-            //HomeLoad();
         }
 
         private void ShowOrdersPanel(object sender, EventArgs e)
         {
+            currentPanel = PanelType.Orders;
+
+            cartPanel.SendToBack();
+
+            cartDetailsPanel.SendToBack();
+
+            homeFlowLayoutPanel.SendToBack();
+
+            ordersPanel.BringToFront();
+
             OrdersLoad();
         }
 
